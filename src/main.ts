@@ -51,6 +51,7 @@ async function bootstrap() {
     const configService = app.get(ConfigService);
     const port = String(configService.get("PORT") || 3000)
 
+    // await AppDataSource.initialize();
     await connectionSource.initialize();
 
     // const meg = new MessageComponent()

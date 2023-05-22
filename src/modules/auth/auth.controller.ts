@@ -3,27 +3,25 @@ import ComponentService from "src/components/component";
 import { MessageComponent } from "src/components/message.component";
 import { ErrorCodes } from "src/constants/error-code.const";
 import { Auth } from "src/entities/Auth.entity";
-import { User } from "src/entities/User.entity";
 import { InvalidValueError } from "src/exceptions/errors/invalid-value.error";
 import { telephoneCheckAndGet } from "src/utils/general.util";
 import { generateId } from "src/utils/id-generator.util";
 import { DataSource } from "typeorm";
 
 import {
-  Body,
-  Controller,
-  Get,
-  Patch,
-  Post,
+    Body,
+    Controller,
+    Get,
+    Patch,
+    Post,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import {
-  ApiBearerAuth,
-  ApiTags,
+    ApiBearerAuth,
+    ApiTags,
 } from "@nestjs/swagger";
+import { Customer } from "@src/entities/Customer.entity";
 
-import { CreateUserDto } from "../user/dto/create-user.dto";
-import { UserService } from "../user/user.service";
 import { AuthServices } from "./auth.service";
 import { CreateAuthDto } from "./dto/create-auth.dto";
 import { LoginDto } from "./dto/login.dto";
@@ -35,7 +33,6 @@ import { UpdateDto } from "./dto/update.dto";
 export class AuthController extends BaseController {
     constructor(
         private readonly authService: AuthServices,
-        private readonly userService: UserService,
         private readonly configService: ConfigService,
         protected readonly dataSource: DataSource,
         private readonly componentService: ComponentService,
@@ -104,24 +101,7 @@ export class AuthController extends BaseController {
             this.throwErrorProcess(err)
             return
         }
-        try {
-            const auth = await this.authService.getAuth(authRes.id)
-            let newData = new CreateUserDto()
-            newData.id = auth.id
-            newData.code = auth.code
-            newData.phoneNumber = auth.phoneNumber
-            userRes = await this.userService.createUser(newData)
-            let user
-            if (userRes) {
-                user = await this.userService.getUserById(userRes.id)
-            }
-            return user 
-        } catch (error) {
-            this.authService.delete(authRes.id)
-            this.userService.delete(userRes.id)
-            this.throwErrorProcess(error)
-            return
-        }
+        return authRes
     }
 
     /**
@@ -132,7 +112,7 @@ export class AuthController extends BaseController {
     @Post("/login")
     async login(
         @Body() loginParams: LoginDto
-    ): Promise<User>{
+    ): Promise<Customer> {
         console.log("body: ", loginParams);
         let phoneNumber = telephoneCheckAndGet(loginParams.phoneNumber)
         if (!phoneNumber) {
@@ -142,36 +122,27 @@ export class AuthController extends BaseController {
                 ErrorCodes.INVALID_PHONE_NUMBER)
         }
         let authData
-        let userData
         authData = await this.componentService.checkPhoneExist(phoneNumber)
-        if (authData && authData.password !== loginParams.password) { 
+        if (!authData) {
+            throw new InvalidValueError(
+                "USER_NOT_EXIST",
+                "USER_NOT_EXIST",
+                ErrorCodes.USER_NOT_EXIST)
+        }
+        if (authData && authData.password !== loginParams.password) {
             throw new InvalidValueError(
                 "PASSWORD_INCORRECT",
                 "PASSWORD_INCORRECT",
                 ErrorCodes.PASSWORD_INCORRECT)
         }
-        if (authData) {
-            userData = await this.userService.getUser(authData.code, true)
-        } else { 
-            throw new InvalidValueError(
-                "USER_NOT_EXIST",
-                "USER_NOT_EXIST",
-                ErrorCodes.USER_NOT_EXIST)
-        }
-        if (!userData) {
-            throw new InvalidValueError(
-                "USER_NOT_EXIST",
-                "USER_NOT_EXIST",
-                ErrorCodes.USER_NOT_EXIST)
-        }
-        return userData
+        return authData
     }
 
 
     @Patch("/update")
     async updateAuth(
         @Body() updateParams: UpdateDto
-    ): Promise<any>{
+    ): Promise<any> {
         if (updateParams.newPassword.trim().length < 8 || updateParams.rePassword.trim().length < 8) {
             throw new InvalidValueError(
                 "Password must be longer than 8 characters",
@@ -194,7 +165,7 @@ export class AuthController extends BaseController {
         let authData
         let userData
         authData = await this.componentService.checkPhoneExist(phoneNumber)
-        if (!authData) { 
+        if (!authData) {
             throw new InvalidValueError(
                 "USER_NOT_EXIST",
                 "USER_NOT_EXIST",
@@ -207,7 +178,7 @@ export class AuthController extends BaseController {
                 ErrorCodes.PASSWORD_INCORRECT)
         }
         try {
-            await this.authService.updateAuth(authData.id,{password:updateParams.newPassword})
+            await this.authService.updateAuth(authData.id, { password: updateParams.newPassword })
         } catch (error) {
             this.throwErrorProcess(error)
         }

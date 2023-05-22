@@ -1,7 +1,7 @@
 import {
-  BaseEntity,
-  Column,
-  Entity,
+    BaseEntity,
+    Column,
+    Entity,
 } from "typeorm";
 
 @Entity("auth")
@@ -23,12 +23,11 @@ export class Auth extends BaseEntity {
     password: string | null;
 
     @Column("varchar", {
-        name: "language",
-        length: 12,
-        default: "'vi'",
-        comment: "vi: Vietnamese | en: English | ...",
+        name: "role",
+        default: "0",
+        comment: "user role",
     })
-    language: string;
+    role: number;
 
     @Column("timestamp", {
         name: "created_at",

@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import {
-  APP_FILTER,
-  Reflector,
+    APP_FILTER,
+    Reflector,
 } from "@nestjs/core";
 
 import { AppController } from "./app.controller";
@@ -14,10 +14,7 @@ import { DatabaseModule } from "./database/database.module";
 import { AllExceptionFilter } from "./filter/exception.filter";
 import { LoggerModule } from "./logger/logger.module";
 import { AuthModule } from "./modules/auth/auth.module";
-import { PostModule } from "./modules/post/post.module";
-import { PostSaveModule } from "./modules/postSave/postSave.module";
-import { ReportModule } from "./modules/report/report.module";
-import { UserModule } from "./modules/user/user.module";
+import { ProductModule } from "./modules/product/product.module";
 
 @Module({
     imports: [
@@ -28,10 +25,7 @@ import { UserModule } from "./modules/user/user.module";
         LoggerModule,
         DatabaseModule,
         AuthModule,
-        UserModule,
-        PostModule,
-        PostSaveModule,
-        ReportModule
+        ProductModule
     ],
     controllers: [AppController],
     providers: [

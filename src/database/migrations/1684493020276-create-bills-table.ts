@@ -1,71 +1,65 @@
 import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
+    MigrationInterface,
+    QueryRunner,
+    Table,
 } from "typeorm";
 
-export class createTablePost1668995292859 implements MigrationInterface {
-    name = 'createTablePost1668995292859'
+export class CreateBillsTable1684493020276 implements MigrationInterface {
 
     async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "post",
+                name: "bills",
                 columns: [
                     {
                         name: "id",
                         type: "int",
                         length: "11",
                         isPrimary: true,
-                        isGenerated: true,
-                        generationStrategy: "increment"
                     },
                     {
-                        name: "authorId",
+                        name: "customerId",
                         type: "int",
                         length: "11",
+                        isUnique: true
                     },
                     {
-                        name: "title",
+                        name: "itemId",
                         type: "varchar",
-                        length: "500",
-                        default: "''"
+                        length: "50",
+                        isUnique: true
                     },
                     {
-                        name: "detail",
-                        type: "text",
-                    },
-                    {
-                        name: "postTime",
+                        name: "start",
                         type: "timestamp",
                         default: "current_timestamp()",
+                        isNullable: true,
                     },
                     {
-                        name: "price",
-                        type: "varchar",
-                        length: "100",
-                        default: "''"
+                        name: "end",
+                        type: "timestamp",
+                        default: "current_timestamp()",
+                        isNullable: true,
                     },
                     {
                         name: "address",
                         type: "varchar",
-                        default: "''",
+                        isNullable: true,
                     },
                     {
-                        name: "postType",
-                        type: "int",
-                        length: "2",
-                        default: 0
-                    },
-                    {
-                        name: "status",
-                        type: "int",
-                        default: 0,
-                        comment: "0: posted | 1: close ",
-                    },
-                    {
-                        name: "image",
+                        name: "deposit",
                         type: "varchar",
+                        isNullable: true,
+                    },
+                    {
+                        name: "totalPrice",
+                        type: "varchar",
+                        isNullable: true,
+                    },
+                    {
+                        name: "paid",
+                        type: "int",
+                        default: "0"
                     },
                     {
                         name: "created_at",
@@ -84,6 +78,7 @@ export class createTablePost1668995292859 implements MigrationInterface {
     }
 
     async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("post");
+        await queryRunner.dropTable("bills");
     }
+
 }

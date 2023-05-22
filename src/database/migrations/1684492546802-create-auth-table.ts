@@ -1,10 +1,10 @@
 import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
+    MigrationInterface,
+    QueryRunner,
+    Table,
 } from "typeorm";
 
-export class createAuthTable1668481667474 implements MigrationInterface {
+export class CreateAuthTable1684492546802 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -38,11 +38,11 @@ export class createAuthTable1668481667474 implements MigrationInterface {
                         isNullable: false,
                     },
                     {
-                        name: "language",
-                        type: "varchar",
-                        length: "12",
-                        default: "'vi'",
-                        comment: "vi: Vietnamese | en: English | ...",
+                        name: "role",
+                        type: "int",
+                        length: "1",
+                        default: "0",
+                        comment: "user role",
                     },
                     {
                         name: "created_at",
@@ -60,7 +60,7 @@ export class createAuthTable1668481667474 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("user");
+        await queryRunner.dropTable("auth");
     }
 
 }

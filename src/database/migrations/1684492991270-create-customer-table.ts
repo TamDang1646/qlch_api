@@ -1,23 +1,16 @@
 import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
+    MigrationInterface,
+    QueryRunner,
+    Table,
 } from "typeorm";
 
-export class CreateUserTable1620123949296 implements MigrationInterface {
+export class CreateCustomerTable1684492991270 implements MigrationInterface {
+
     async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "user",
+                name: "customers",
                 columns: [
-                    // {
-                    //     name: "id",
-                    //     type: "int",
-                    //     length: "11",
-                    //     isPrimary: true,
-                    //     isGenerated: true,
-                    //     generationStrategy: "increment"
-                    // },
                     {
                         name: "id",
                         type: "int",
@@ -57,40 +50,10 @@ export class CreateUserTable1620123949296 implements MigrationInterface {
                         comment: "0: male | 1: female | 2: other",
                     },
                     {
-                        name: "language",
-                        type: "varchar",
-                        length: "12",
-                        default: "'vi'",
-                        comment: "vi: Vietnamese | en: English | ...",
-                    },
-                    {
-                        name: "birthday",
-                        type: "date",
-                        isNullable: true,
-                    },
-                    {
-                        name: "status",
-                        type: "int",
-                        default: 0,
-                        comment: "0: inactive| 1: active| 2: block| 3: delete",
-                    },
-                    {
-                        name: "avatar",
-                        type: "varchar",
-                        isNullable: true,
-                    },
-                    {
                         name: "address",
                         type: "varchar",
                         isNullable: true,
                     },
-                    {
-                        name: "total_post",
-                        type: "int",
-                        isNullable: true,
-                        default: 0,
-                    },
-                    
                     {
                         name: "created_at",
                         type: "timestamp",
@@ -108,6 +71,7 @@ export class CreateUserTable1620123949296 implements MigrationInterface {
     }
 
     async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("user");
+        await queryRunner.dropTable("customers");
     }
+
 }

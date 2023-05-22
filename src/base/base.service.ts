@@ -2,20 +2,20 @@ import queryString from "query-string";
 import { PaginationDto } from "src/base/pagination.dto";
 import { ErrorCodes } from "src/constants/error-code.const";
 import {
-  toSnakeCase,
-  trim,
+    toSnakeCase,
+    trim,
 } from "src/utils/general.util";
 import { throwNotFound } from "src/utils/throw-exception.util";
 import {
-  BaseEntity,
-  DeleteResult,
-  FindManyOptions,
-  FindOneOptions,
-  FindOptionsWhere,
-  ObjectID,
-  Repository,
-  SelectQueryBuilder,
-  UpdateResult,
+    BaseEntity,
+    DeleteResult,
+    FindManyOptions,
+    FindOneOptions,
+    FindOptionsWhere,
+    ObjectId,
+    Repository,
+    SelectQueryBuilder,
+    UpdateResult,
 } from "typeorm";
 import { EntityId } from "typeorm/repository/EntityId";
 
@@ -110,7 +110,7 @@ export class BaseService<T extends BaseEntity, R extends Repository<T>> implemen
      * @param {FindOptionsWhere<T>} conditions 
      * @returns Promise<DeleteResult>
      */
-    async removeOne(criteria: string | string[] | number | number[] | Date | Date[] | ObjectID | ObjectID[] | FindOptionsWhere<T>) {
+    async removeOne(criteria: string | string[] | number | number[] | Date | Date[] | ObjectId | ObjectId[] | FindOptionsWhere<T>) {
         return await this.repository.delete(criteria)
     }
 
