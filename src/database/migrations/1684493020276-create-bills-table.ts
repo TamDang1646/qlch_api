@@ -16,17 +16,13 @@ export class CreateBillsTable1684493020276 implements MigrationInterface {
                         type: "int",
                         length: "11",
                         isPrimary: true,
+                        isGenerated: true,
+                        generationStrategy: "increment"
                     },
                     {
                         name: "customerId",
                         type: "int",
                         length: "11",
-                        isUnique: true
-                    },
-                    {
-                        name: "itemId",
-                        type: "varchar",
-                        length: "50",
                         isUnique: true
                     },
                     {

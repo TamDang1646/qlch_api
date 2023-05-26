@@ -14,6 +14,8 @@ import { DatabaseModule } from "./database/database.module";
 import { AllExceptionFilter } from "./filter/exception.filter";
 import { LoggerModule } from "./logger/logger.module";
 import { AuthModule } from "./modules/auth/auth.module";
+import { BillsModule } from "./modules/bills/bills.module";
+import { CustomerModule } from "./modules/customer/customer.module";
 import { ProductModule } from "./modules/product/product.module";
 
 @Module({
@@ -25,7 +27,9 @@ import { ProductModule } from "./modules/product/product.module";
         LoggerModule,
         DatabaseModule,
         AuthModule,
-        ProductModule
+        ProductModule,
+        BillsModule,
+        CustomerModule
     ],
     controllers: [AppController],
     providers: [

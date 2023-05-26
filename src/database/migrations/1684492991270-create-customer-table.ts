@@ -16,12 +16,13 @@ export class CreateCustomerTable1684492991270 implements MigrationInterface {
                         type: "int",
                         length: "11",
                         isPrimary: true,
+                        isGenerated: true,
+                        generationStrategy: "increment"
                     },
                     {
                         name: "code",
                         type: "varchar",
                         length: "12",
-                        isUnique: true
                     },
                     {
                         name: "phone_number",
