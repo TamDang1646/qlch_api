@@ -1,4 +1,4 @@
-import { DataSource } from "typeorm";
+import { DataSource, In } from "typeorm";
 
 import { BaseController } from "@base/base.controller";
 import {
@@ -24,6 +24,7 @@ import { BillsService } from "./bills.service";
 import { CreateBillDto } from "./dto/create-bill.dto";
 import { UpdateBillDto } from "./dto/update-bill.dto";
 import { generateId } from "@src/utils/id-generator.util";
+import { Product } from "@src/entities/Product.entity";
 
 @ApiBearerAuth()
 @ApiTags("Bills")
@@ -128,25 +129,32 @@ export class BillsController extends BaseController {
           addData.items,
           bill.id,
         );
-        // addData.items.forEach(async item => {
-        //     let it = await this.billItemService.addBillItems({
-        //         billId: bill.id,
-        //         itemId: item.id,
-        //         size: item.size,
-        //         quantity: item.quantity
-        //     })
-        //     console.log("billitem", it);
+        const billItemIds = billItem.map((item) => item.itemId);
+        console.log("billItemIds", billItemIds);
 
-        //     if (it) {
-        //         billItem.push(it)
-        //     }
-        // });
+        const billItems = await this.dataSource
+          .getRepository(Product)
+          .find({ where: { id: In(billItemIds) } });
+        console.log(billItems);
+
+        let totalPrice = billItems.reduce(function (total, item) {
+          return (
+            total +
+            parseFloat(item.price) *
+              billItem.find((x) => x.itemId == item.id).quantity
+          );
+        }, 0);
+        let paid = parseFloat(addData.deposit) >= totalPrice ? 1 : 0;
+        await this.dataSource
+          .getRepository(Bills)
+          .update(
+            { id: bill.id },
+            { totalPrice: totalPrice.toString(), paid: paid },
+          );
+        bill = await this.dataSource
+          .getRepository(Bills)
+          .findOne({ where: { id: bill.id } });
       }
-
-      //   let totalPrice = addData.items.reduce(function (total, item) {
-      //     return total + parseFloat(item.price) * item.quantity;
-      //   }, 0);
-      //   let paid = parseFloat(addData.deposit) >= totalPrice ? 1 : 0;
 
       console.log("billItem", billItem);
 
