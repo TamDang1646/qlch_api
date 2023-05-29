@@ -19,7 +19,7 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "typeorm": "ts-node ./node_modules/typeorm/cli",
-         "typeorm:create": "npm run typeorm -- migration:create",
+        "typeorm:create": "npm run typeorm -- migration:create",
         "typeorm:up": "npm run typeorm -- --dataSource=./data-source.ts migration:run",
         "typeorm:down": "npm run typeorm -- --dataSource=./data-source.ts migration:revert",
         "typeorm:show": "npm run typeorm -- --dataSource=./data-source.ts migration:show"
@@ -44,7 +44,6 @@
         "moment": "^2.29.3",
         "morgan": "^1.10.0",
         "mysql2": "^2.3.3",
-        "parse-redis-url-simple": "^1.0.2",
         "query-string": "^7.1.1",
         "reflect-metadata": "^0.1.13",
         "rxjs": "^7.5.5",
