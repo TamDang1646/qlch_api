@@ -104,16 +104,15 @@ export class BillsController extends BaseController {
 
       const data = {
         customerId: cusRes.id,
-        start: addData.start,
-        end: addData.end,
+        start: new Date(parseInt(`${addData.start}`)),
+        end: new Date(parseInt(`${addData.end}`)),
         address: addData.address,
         deposit: addData.deposit,
         totalPrice: "0",
         paid: 0,
       };
-      console.log("data", data);
 
-      let bill = await this.billsService.addBills(data);
+      let bill = await this.billsService.addBills(data as any);
       console.log("bill", bill);
 
       if (!bill) {
