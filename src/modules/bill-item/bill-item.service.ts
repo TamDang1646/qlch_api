@@ -80,7 +80,9 @@ export class BillItemsService extends BaseService<
 
   async addBillItems(addData: CreateBillItemDto[], billId: number) {
     let data = addData.map((item) => {
-      return new BillItems({ ...item, billId: billId });
+      const newItem = new BillItems({ ...item, billId: billId });
+      delete newItem["id"];
+      return newItem;
     });
     let result: InsertResult;
     try {
