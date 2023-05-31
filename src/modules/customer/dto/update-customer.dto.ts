@@ -10,14 +10,6 @@ import { Property } from "@src/utils/general.util";
 
 export class UpdateCustomerDto extends BaseDto<Customer> {
     @ApiProperty({
-        required: true,
-        description: "User's id"
-    })
-    @IsNumber()
-    @Property()
-    id: number
-
-    @ApiProperty({
         default: null,
         required: false,
         description: "User's phoneNumber"

@@ -42,14 +42,14 @@ export class ProductController extends BaseController {
      *
      * @returns
      */
-    @Get("/all")
+    @Get()
     async test(): Promise<Product[]> {
-        // try {
-        //     return await this.productService.getAll()
-        // } catch (error) {
-        //     this.throwErrorProcess(error)
-        // }
-        return;
+        try {
+            return await this.productService.getAll()
+        } catch (error) {
+            this.throwErrorProcess(error)
+        }
+        // return;
     }
 
     @Get("/:id")

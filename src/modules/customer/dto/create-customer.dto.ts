@@ -1,3 +1,4 @@
+import { IsString } from "class-validator";
 import { BaseDto } from "src/base/base.dto";
 
 import { ApiProperty } from "@nestjs/swagger";
@@ -8,12 +9,16 @@ export class CreateCustomerDto extends BaseDto<Customer> {
         description: "name",
         required: true
     })
+    @ApiProperty()
+    @IsString()
     name: string
 
     @ApiProperty({
         description: "address",
         required: true
     })
+    @ApiProperty()
+    @IsString()
     address: string
 
 
@@ -21,6 +26,8 @@ export class CreateCustomerDto extends BaseDto<Customer> {
         description: "phoneNumber",
         required: true
     })
+    @ApiProperty()
+    @IsString()
     phoneNumber: string
 
 }
