@@ -12,6 +12,7 @@ import { Product } from "@src/entities/Product.entity";
 import { DatabaseError } from "@src/exceptions/errors/database.error";
 
 import { CreateProductDto } from "./dto/create-product.dto";
+import { GetProductDto } from "./dto/get-product.dto";
 import { ProductRepository } from "./product.repository";
 
 @Injectable()
@@ -126,6 +127,61 @@ export class ProductService extends BaseService<Product, ProductRepository> {
         }
 
         return await this.repository.findOne({ where: { id: id } })
+    }
+
+
+    async find(params: GetProductDto) {
+        const postTable = this.repository.metadata.tableName
+        const query = this.repository.manager.createQueryBuilder(Product, postTable)
+        // query.leftJoinAndMapMany("post.author", User, "user", "authorId = user.id")
+        // query
+        //     .innerJoin(
+        //         "user",
+        //         "user",
+        //         "user.id = post.authorId",
+        //     )
+        // .addSelect("user", "author")
+        if (params.id) {
+            query.andWhere("id = :id", { id: params.id })
+        }
+        if (params.type) {
+            query.andWhere("type = :type", { type: params.type })
+        }
+        if (params.name) {
+            query.andWhere("name like :name", { name: `%${params.name}%` })
+        }
+        // if (params.postType && params.postType == 1) {
+        //     if (params.minPrice) {
+        //         query.andWhere("min_price >= :minPrice", { minPrice: params.minPrice })
+        //     }
+        //     if (params.maxPrice) {
+        //         query.andWhere("max_price <= :maxPrice", { maxPrice: params.maxPrice })
+        //     }
+        // } else {
+        //     if (params.minPrice) {
+        //         query.andWhere("price >= :minPrice", { minPrice: params.minPrice })
+        //     }
+        //     if (params.maxPrice) {
+        //         query.andWhere("price <= :maxPrice", { maxPrice: params.maxPrice })
+        //     }
+        // }
+        if (params.size) {
+            query.andWhere("size like :size", { size: `%${params.size}%` })
+        }
+        if (params.price) {
+            query.andWhere("price like :price", { price: `%${params.price}%` })
+        }
+        // if (params.postType) {
+        //     query.andWhere("postType = :postType", { postType: params.postType })
+        // }
+        // if (params.status) {
+        //     query.andWhere("status = :status", { status: params.status })
+        // }
+        query.orderBy("id", "DESC")
+        console.log("quey", await query.getQuery());
+
+        // return await query.execute()
+        return await query.getMany()
     }
 }
 

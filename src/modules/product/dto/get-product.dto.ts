@@ -1,5 +1,4 @@
 import {
-    IsInt,
     IsOptional,
     IsString,
 } from "class-validator";
@@ -9,30 +8,40 @@ import { Property } from "src/utils/general.util";
 import { ApiProperty } from "@nestjs/swagger";
 import { Product } from "@src/entities/Product.entity";
 
-export class CreateProductDto extends BaseDto<Product>{
+export class GetProductDto extends BaseDto<Product>{
+
+    @ApiProperty({
+        description: "Product's id",
+        required: false
+    })
+    // @IsString()
+    @Property()
+    @IsOptional()
+    id: number
 
     @ApiProperty({
         description: "Product names",
-        required: true
+        required: false
 
     })
     // @IsString()
     @Property()
     @IsString()
+    @IsOptional()
     name: string
 
     @ApiProperty({
         description: "Product type",
-        required: true
+        required: false
     })
     @Property()
-    @IsInt()
+    @IsOptional()
     type: number
 
 
     @ApiProperty({
         description: "Product Size",
-        required: true
+        required: false
     })
     // @IsNumber()
     @Property()
@@ -41,7 +50,7 @@ export class CreateProductDto extends BaseDto<Product>{
 
     @ApiProperty({
         description: "Post's price",
-        required: true
+        required: false
     })
     // @IsNumber()
     @Property()
@@ -50,20 +59,11 @@ export class CreateProductDto extends BaseDto<Product>{
 
     @ApiProperty({
         description: "Quantity",
-        required: true
+        required: false
     })
     // @IsNumber()
     @Property()
     @IsOptional()
     quantity: number
 
-    @ApiProperty({
-        description: "Post's image",
-        required: false,
-    })
-    // @IsString()
-    @Property()
-    @IsOptional()
-    // @IsNumber()
-    image: string
 }
