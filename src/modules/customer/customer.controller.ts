@@ -17,7 +17,6 @@ import {
 } from "@nestjs/swagger";
 import { MessageComponent } from "@src/components/message.component";
 import { ErrorCodes } from "@src/constants/error-code.const";
-import { TokenDto } from "@src/dtos/token.dto";
 import { Customer } from "@src/entities/Customer.entity";
 import { DatabaseError } from "@src/exceptions/errors/database.error";
 import { generateId } from "@src/utils/id-generator.util";
@@ -54,11 +53,9 @@ export class CustomerController extends BaseController {
 
     @Get("/:id")
     async getCustomerById(
-        @Param("id") id: number,
+        @Param("id") id: string,
     ): Promise<any> {
         try {
-            let token = new TokenDto
-            token.userId = id
             const res = await this.customerService.getCustomerId(id)
             if (!res) {
                 throw new DatabaseError(
