@@ -43,7 +43,7 @@ export class ProductController extends BaseController {
      * @returns
      */
     @Get()
-    async test(): Promise<Product[]> {
+    async getAll(): Promise<Product[]> {
         try {
             return await this.productService.getAll()
         } catch (error) {

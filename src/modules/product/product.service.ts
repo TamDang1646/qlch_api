@@ -42,6 +42,9 @@ export class ProductService extends BaseService<Product, ProductRepository> {
             }
         )
     }
+    async getProductIds(id): Promise<Product[]> {
+        return await this.repository.findByIds(id)
+    }
 
     async deleteProductById(id): Promise<boolean> {
         const isExist = await this.repository.findOne(

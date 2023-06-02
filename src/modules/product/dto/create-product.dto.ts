@@ -61,7 +61,7 @@ export class CreateProductDto extends BaseDto<Product>{
         description: "Post's image",
         required: false,
     })
-    // @IsString()
+    @IsString()
     @Property()
     @IsOptional()
     // @IsNumber()

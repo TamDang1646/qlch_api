@@ -5,19 +5,23 @@ import { MessageComponent } from "src/components/message.component";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Auth } from "@src/entities/Auth.entity";
+import { BillItems } from "@src/entities/BillItem.entity";
 import { Customer } from "@src/entities/Customer.entity";
+import { Product } from "@src/entities/Product.entity";
 
 import { AuthRepository } from "../auth/auth.repository";
 import { AuthServices } from "../auth/auth.service";
+import { BillItemsService } from "../bill-item/bill-item.service";
+import { ProductService } from "../product/product.service";
 import { CustomerController } from "./Customer.controller";
 import { CustomerRepository } from "./Customer.repository";
 import { CustomerService } from "./customer.service";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Customer, CustomerRepository, Auth]),
+        TypeOrmModule.forFeature([Customer, CustomerRepository, Auth, BillItems, Product]),
     ],
-    providers: [CustomerService, MessageComponent, ApiResponseService, ComponentService, AuthServices, AuthRepository],
+    providers: [CustomerService, MessageComponent, ApiResponseService, ComponentService, ProductService, AuthServices, AuthRepository, BillItemsService],
     exports: [TypeOrmModule, CustomerService],
     controllers: [CustomerController],
 })

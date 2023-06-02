@@ -95,6 +95,7 @@ export class AuthController extends BaseController {
             data.code = code
             data.phoneNumber = phoneNumber
             data.password = createAuthBody.rePassword
+            data.role = createAuthBody.role
             authRes = await this.authService.createUser(data)
         } catch (err) {
             // since we have errors let's rollback changes we made
