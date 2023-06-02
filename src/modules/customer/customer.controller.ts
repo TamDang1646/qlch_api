@@ -17,9 +17,9 @@ import {
 } from "@nestjs/swagger";
 import { MessageComponent } from "@src/components/message.component";
 import { ErrorCodes } from "@src/constants/error-code.const";
-import { TokenDto } from "@src/dtos/token.dto";
 import { Customer } from "@src/entities/Customer.entity";
 import { DatabaseError } from "@src/exceptions/errors/database.error";
+import { generateId } from "@src/utils/id-generator.util";
 
 import { CustomerService } from "./customer.service";
 import { CreateCustomerDto } from "./dto/create-customer.dto";
@@ -27,7 +27,7 @@ import { UpdateCustomerDto } from "./dto/update-customer.dto";
 
 @ApiBearerAuth()
 @ApiTags('Customer')
-@Controller("Customer")
+@Controller("customer")
 export class CustomerController extends BaseController {
     constructor(
         private readonly customerService: CustomerService,
@@ -53,11 +53,9 @@ export class CustomerController extends BaseController {
 
     @Get("/:id")
     async getCustomerById(
-        @Param("id") id: number,
+        @Param("id") id: string,
     ): Promise<any> {
         try {
-            let token = new TokenDto
-            token.userId = id
             const res = await this.customerService.getCustomerId(id)
             if (!res) {
                 throw new DatabaseError(
@@ -79,8 +77,26 @@ export class CustomerController extends BaseController {
         @Body() addData: CreateCustomerDto
     ): Promise<any> {
         try {
-            const res = await this.customerService.addCustomer(addData)
-            return addData
+            console.log("data", addData);
+            let findOne = await this.customerService.findOne({
+                phoneNumber: addData.phoneNumber,
+            });
+            console.log("customr", findOne);
+            if (!findOne) {
+                const userTypeId = 1;
+                const shard = 511;
+                const sequenceId = Math.floor(Math.random() * 1024);
+                const code = generateId(userTypeId, Date.now(), shard, sequenceId);
+                let customer = { code, ...addData }
+                const res = await this.customerService.addCustomer(customer);
+                return res
+            } else {
+                throw new DatabaseError(
+                    "CUSTOMER_ALREADY_EXIST",
+                    "CUSTOMER_ALREADY_EXIST",
+                    ErrorCodes.USER_PHONE_NUMBER_ALREADY_EXISTS
+                )
+            }
         } catch (error) {
             this.throwErrorProcess(error)
         }

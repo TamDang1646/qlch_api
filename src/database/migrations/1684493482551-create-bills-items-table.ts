@@ -26,8 +26,8 @@ export class CreateBillsItemsTable1684493482551 implements MigrationInterface {
                     },
                     {
                         name: "itemId",
-                        type: "varchar",
-                        length: "50",
+                        type: "int",
+                        length: "11",
                     },
                     {
                         name: "size",

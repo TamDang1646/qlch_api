@@ -12,7 +12,6 @@ import { Customer } from "@src/entities/Customer.entity";
 import { DatabaseError } from "@src/exceptions/errors/database.error";
 
 import { CustomerRepository } from "./Customer.repository";
-import { CreateCustomerDto } from "./dto/create-customer.dto";
 
 @Injectable()
 export class CustomerService extends BaseService<Customer, CustomerRepository> {
@@ -75,7 +74,7 @@ export class CustomerService extends BaseService<Customer, CustomerRepository> {
     }
 
 
-    async addCustomer(addData: CreateCustomerDto) {
+    async addCustomer(addData: any) {
         let result: InsertResult
         try {
             result = await this.repository.createQueryBuilder()

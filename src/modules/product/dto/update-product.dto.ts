@@ -58,12 +58,11 @@ export class UpdateProductDto extends BaseDto<Product>{
     quantity: number
 
     @ApiProperty({
-        description: "Post's image",
-        required: false,
+        description: "Product image",
+        required: false
     })
-    // @IsString()
+    // @IsNumber()
     @Property()
     @IsOptional()
-    // @IsNumber()
     image: string
 }

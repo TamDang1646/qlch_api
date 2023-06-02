@@ -5,17 +5,21 @@ import { Auth } from "src/entities/Auth.entity";
 
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { BillItems } from "@src/entities/BillItem.entity";
 import { Customer } from "@src/entities/Customer.entity";
+import { Product } from "@src/entities/Product.entity";
 
+import { BillItemsService } from "../bill-item/bill-item.service";
+import { ProductService } from "../product/product.service";
 import { AuthController } from "./auth.controller";
 import { AuthServices } from "./auth.service";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Auth, Customer]),
+        TypeOrmModule.forFeature([Auth, Customer, BillItems, Product]),
 
     ],
-    providers: [AuthServices, MessageComponent, ApiResponseService, ComponentService],
+    providers: [AuthServices, MessageComponent, ApiResponseService, ComponentService, BillItemsService, ProductService],
     exports: [TypeOrmModule, AuthServices, AuthServices],
     controllers: [AuthController],
 })
