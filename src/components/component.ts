@@ -35,7 +35,8 @@ export default class ComponentService {
                 id: id,
                 name: iDetail.name,
                 quantity: bItem.quantity,
-                price: iDetail.price
+                price: iDetail.price,
+                size: bItem.size
             }
         })
         // item.items = its

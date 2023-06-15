@@ -64,8 +64,7 @@ async function bootstrap() {
         app.enableCors();
 
         const config = new DocumentBuilder()
-            .setTitle("Motel API")
-            .setDescription("Tìm nhà trọ nhanh chóng")
+            .setTitle("QLCH API")
             .setVersion("1.0")
             // .addBearerAuth()
             .build();

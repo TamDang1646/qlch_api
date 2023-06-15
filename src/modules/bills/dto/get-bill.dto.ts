@@ -8,7 +8,7 @@ import { Bills } from "@src/entities/Bill.entity";
 export class GetBillDto extends BaseDto<Bills>{
     @ApiProperty({
         description: "Start",
-        required: true,
+        required: false,
     })
     // @IsNumber()
     @Property()
@@ -17,7 +17,7 @@ export class GetBillDto extends BaseDto<Bills>{
 
     @ApiProperty({
         description: "End",
-        required: true,
+        required: false,
     })
     // @IsNumber()
     @Property()

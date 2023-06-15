@@ -22,7 +22,6 @@ import {
 import ComponentService from "@src/components/component";
 import { MessageComponent } from "@src/components/message.component";
 import { ErrorCodes } from "@src/constants/error-code.const";
-import { TokenDto } from "@src/dtos/token.dto";
 import { Bills } from "@src/entities/Bill.entity";
 import { Product } from "@src/entities/Product.entity";
 import { DatabaseError } from "@src/exceptions/errors/database.error";
@@ -98,9 +97,9 @@ export class BillsController extends BaseController {
     @Get("/:id")
     async getBillsById(@Param("id") id: number): Promise<any> {
         try {
-            let token = new TokenDto();
-            token.userId = id;
-            const res = await this.billsService.getBillsId(id);
+            console.log("id", id);
+
+            const res = await this.billsService.getBillId(id);
             if (!res) {
                 throw new DatabaseError(
                     "BILL_NOT_EXIST",
@@ -108,11 +107,8 @@ export class BillsController extends BaseController {
                     ErrorCodes.BILL_NOT_EXIST,
                 );
             }
-
-            const result = await this.component.setExtraData(res)
-            console.log("res", result);
-
-            return result;
+            await this.component.setExtraData(res)
+            return res;
             // return res.map((item) => ({ ...item, isSave: 1 }))
         } catch (error) {
             this.throwErrorProcess(error);

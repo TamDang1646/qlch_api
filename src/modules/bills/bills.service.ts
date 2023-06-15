@@ -39,10 +39,21 @@ export class BillsService extends BaseService<Bills, BillsRepository> {
         return await query.execute()
         // return await this.repository.find();
     }
-    async getBillsId(id): Promise<Bills> {
-        return await this.repository.findOne({
-            where: [{ id }],
-        });
+    async getBillId(id): Promise<Bills> {
+        // const query = this.repository.manager.createQueryBuilder<Bills>(Bills, "bills")
+        //     .innerJoin(Customer, "cus", "bills.customerId=cus.id ")
+        //     .select("bills.*, cus.name as customerName,cus.phone_number as customerPhonenumber, cus.address as customerAddress")
+        //     .andWhere("bills.id = :id", { id })
+
+        const postTable = this.repository.metadata.tableName
+        const query = this.repository.manager.createQueryBuilder(Bills, postTable)
+        query.innerJoin(Customer, "cus", "bills.customerId=cus.id ")
+            .select("bills.*, cus.name as customerName,cus.phone_number as customerPhonenumber, cus.address as customerAddress")
+            .andWhere("bills.id = :id", { id })
+        return await query.getRawOne()
+        // return await this.repository.findOne({
+        //     where: [{ id }],
+        // })
     }
 
     async deleteBillsById(id): Promise<boolean> {
