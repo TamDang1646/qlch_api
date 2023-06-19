@@ -264,7 +264,7 @@ export class BillsController extends BaseController {
           if (!i.id) {
             return this.dataSource
               .getRepository(BillItems)
-              .update({ id: i.id }, { ...i });
+              .save({ ...i, billId: id });
           }
         }),
       );
