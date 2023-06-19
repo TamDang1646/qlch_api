@@ -239,10 +239,54 @@ export class BillsController extends BaseController {
     @Body() updateData: UpdateBillDto,
   ): Promise<any> {
     try {
-      return await this.billsService.updateBillsById(
+      const bill = await this.billsService.updateBillsById(
         id,
         updateData as unknown as Record<string, unknown>,
       );
+      const exitsIds = updateData.items.filter((i) => i.id != undefined);
+      const oldBillItems = await this.dataSource
+        .getRepository(BillItems)
+        .findBy({ id: In(exitsIds) });
+      await Promise.all(
+        oldBillItems.map((i) => {
+          const item = updateData.items.find((up) => up.id == i.id);
+          return this.dataSource.getRepository(Product).update(
+            { id: i.id },
+            {
+              ...item,
+              quantity: () => `quantity - ${item.quantity - i.quantity}`,
+            },
+          );
+        }),
+      );
+      await Promise.all(
+        updateData.items.map((i) => {
+          if (!i.id) {
+            return this.dataSource
+              .getRepository(BillItems)
+              .update({ id: i.id }, { ...i });
+          }
+        }),
+      );
+
+      const billItems = await this.dataSource
+        .getRepository(BillItems)
+        .findBy({ billId: id });
+      const PrdbillItems = await this.dataSource
+        .getRepository(Product)
+        .find({ where: { id: In(billItems.map((i) => i.id)) } });
+
+      let totalPrice = PrdbillItems.reduce(function (total, item) {
+        return (
+          total +
+          parseFloat(item.price) *
+            billItems.find((x) => x.itemId == item.id).quantity
+        );
+      }, 0);
+      await this.dataSource
+        .getRepository(Bills)
+        .update({ id: bill.id }, { totalPrice: totalPrice.toString() });
+      return this.dataSource.getRepository(Bills).findOneBy({ id: id });
     } catch (error) {
       this.throwErrorProcess(error);
     }
