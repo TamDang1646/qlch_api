@@ -13,7 +13,7 @@ import { Product } from "@src/entities/Product.entity";
 import { AuthRepository } from "../auth/auth.repository";
 import { AuthServices } from "../auth/auth.service";
 import { BillItemsService } from "../bill-item/bill-item.service";
-import { CustomerRepository } from "../customer/Customer.repository";
+import { CustomerRepository } from "../customer/customer.repository";
 import { CustomerService } from "../customer/customer.service";
 import { ProductService } from "../product/product.service";
 import { BillsController } from "./bills.controller";
@@ -21,14 +21,29 @@ import { BillsRepository } from "./bills.repository";
 import { BillsService } from "./bills.service";
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([Bills, BillsRepository, Auth, Customer, BillItems, Product]),
-    ],
-    providers: [BillsService, MessageComponent, ApiResponseService, ComponentService, ProductService, AuthServices, AuthRepository, CustomerService, CustomerRepository, BillItemsService],
-    exports: [TypeOrmModule, BillsService],
-    controllers: [BillsController],
+  imports: [
+    TypeOrmModule.forFeature([
+      Bills,
+      BillsRepository,
+      Auth,
+      Customer,
+      BillItems,
+      Product,
+    ]),
+  ],
+  providers: [
+    BillsService,
+    MessageComponent,
+    ApiResponseService,
+    ComponentService,
+    ProductService,
+    AuthServices,
+    AuthRepository,
+    CustomerService,
+    CustomerRepository,
+    BillItemsService,
+  ],
+  exports: [TypeOrmModule, BillsService],
+  controllers: [BillsController],
 })
-
-export class BillsModule {
-
-}
+export class BillsModule {}
