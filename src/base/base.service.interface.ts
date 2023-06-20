@@ -1,5 +1,5 @@
 export interface BaseServiceInterface<T> {
-    index(): Promise<T[]>
+    index(): Promise<T[]>;
 
     // findById(id: EntityId): Promise<T>
 

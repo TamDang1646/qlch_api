@@ -3,32 +3,36 @@ import { MessageComponent } from "src/components/message.component";
 import { ErrorCodes } from "src/constants/error-code.const";
 
 import {
-  ArgumentMetadata,
-  BadRequestException,
-  ValidationPipe,
+    ArgumentMetadata,
+    BadRequestException,
+    ValidationPipe,
 } from "@nestjs/common";
 
 export class ValidationPipe422 extends ValidationPipe {
-    async transform(value: unknown, metadata: ArgumentMetadata): Promise<unknown> {
+    async transform(
+        value: unknown,
+        metadata: ArgumentMetadata,
+    ): Promise<unknown> {
         // console.log("Debug ValidationPipe422", value, metadata);
         try {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            return await super.transform(value, metadata)
+            return await super.transform(value, metadata);
         } catch (e) {
-
-            const messageComponent = new MessageComponent()
+            const messageComponent = new MessageComponent();
 
             if (e instanceof BadRequestException) {
-                const response = e.getResponse()
+                const response = e.getResponse();
 
                 throw new BadRequestException({
-                    message: messageComponent.lang("VALIDATION_INPUT_TYPE_ERROR"),
+                    message: messageComponent.lang(
+                        "VALIDATION_INPUT_TYPE_ERROR",
+                    ),
                     cause: isString(response) ? response : response,
-                    errorCode: ErrorCodes.VALIDATION_INPUT_TYPE_ERROR
-                })
+                    errorCode: ErrorCodes.VALIDATION_INPUT_TYPE_ERROR,
+                });
             }
 
-            throw e
+            throw e;
         }
     }
 }

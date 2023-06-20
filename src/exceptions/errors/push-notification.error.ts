@@ -1,5 +1,3 @@
 import { BaseError } from "./base.error";
 
-export class PushNotificationError extends BaseError {
-
-}
+export class PushNotificationError extends BaseError {}

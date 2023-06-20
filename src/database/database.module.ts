@@ -1,8 +1,5 @@
 import { Module } from "@nestjs/common";
-import {
-  ConfigModule,
-  ConfigService,
-} from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
@@ -19,21 +16,38 @@ import { TypeOrmModule } from "@nestjs/typeorm";
                         password: configService.get<string>("databasePassword"),
                         database: configService.get<string>("databaseName"),
                     },
-                    slaves: [{
-                        host: configService.get<string>("databaseSlaveHost") || configService.get<string>("databaseHost"),
-                        port: configService.get<number>("databaseSlavePort") || configService.get<number>("databasePort"),
-                        username: configService.get<string>("databaseSlaveUsername") || configService.get<string>("databaseUsername"),
-                        password: configService.get<string>("databaseSlavePassword") || configService.get<string>("databasePassword"),
-                        database: configService.get<string>("databaseSlaveName") || configService.get<string>("databaseName"),
-                    }],
+                    slaves: [
+                        {
+                            host:
+                                configService.get<string>(
+                                    "databaseSlaveHost",
+                                ) || configService.get<string>("databaseHost"),
+                            port:
+                                configService.get<number>(
+                                    "databaseSlavePort",
+                                ) || configService.get<number>("databasePort"),
+                            username:
+                                configService.get<string>(
+                                    "databaseSlaveUsername",
+                                ) ||
+                                configService.get<string>("databaseUsername"),
+                            password:
+                                configService.get<string>(
+                                    "databaseSlavePassword",
+                                ) ||
+                                configService.get<string>("databasePassword"),
+                            database:
+                                configService.get<string>(
+                                    "databaseSlaveName",
+                                ) || configService.get<string>("databaseName"),
+                        },
+                    ],
                 },
-                entities: [
-                    __dirname + "/../entities/*{.ts,.js}"
-                ],
+                entities: [__dirname + "/../entities/*{.ts,.js}"],
                 autoLoadEntities: true,
             }),
             inject: [ConfigService],
         }),
     ],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}

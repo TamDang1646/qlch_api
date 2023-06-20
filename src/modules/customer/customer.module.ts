@@ -18,26 +18,26 @@ import { CustomerRepository } from "./customer.repository";
 import { CustomerService } from "./customer.service";
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      Customer,
-      CustomerRepository,
-      Auth,
-      BillItems,
-      Product,
-    ]),
-  ],
-  providers: [
-    CustomerService,
-    MessageComponent,
-    ApiResponseService,
-    ComponentService,
-    ProductService,
-    AuthServices,
-    AuthRepository,
-    BillItemsService,
-  ],
-  exports: [TypeOrmModule, CustomerService],
-  controllers: [CustomerController],
+    imports: [
+        TypeOrmModule.forFeature([
+            Customer,
+            CustomerRepository,
+            Auth,
+            BillItems,
+            Product,
+        ]),
+    ],
+    providers: [
+        CustomerService,
+        MessageComponent,
+        ApiResponseService,
+        ComponentService,
+        ProductService,
+        AuthServices,
+        AuthRepository,
+        BillItemsService,
+    ],
+    exports: [TypeOrmModule, CustomerService],
+    controllers: [CustomerController],
 })
 export class CustomerModule {}

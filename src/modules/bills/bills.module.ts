@@ -21,29 +21,29 @@ import { BillsRepository } from "./bills.repository";
 import { BillsService } from "./bills.service";
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      Bills,
-      BillsRepository,
-      Auth,
-      Customer,
-      BillItems,
-      Product,
-    ]),
-  ],
-  providers: [
-    BillsService,
-    MessageComponent,
-    ApiResponseService,
-    ComponentService,
-    ProductService,
-    AuthServices,
-    AuthRepository,
-    CustomerService,
-    CustomerRepository,
-    BillItemsService,
-  ],
-  exports: [TypeOrmModule, BillsService],
-  controllers: [BillsController],
+    imports: [
+        TypeOrmModule.forFeature([
+            Bills,
+            BillsRepository,
+            Auth,
+            Customer,
+            BillItems,
+            Product,
+        ]),
+    ],
+    providers: [
+        BillsService,
+        MessageComponent,
+        ApiResponseService,
+        ComponentService,
+        ProductService,
+        AuthServices,
+        AuthRepository,
+        CustomerService,
+        CustomerRepository,
+        BillItemsService,
+    ],
+    exports: [TypeOrmModule, BillsService],
+    controllers: [BillsController],
 })
 export class BillsModule {}

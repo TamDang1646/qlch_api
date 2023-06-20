@@ -23,7 +23,7 @@ export function generateId(
         return base62.encode(bigIntValue);
     }
 
-    return null
+    return null;
 }
 
 export function decodeId(input: string): number[] {
@@ -44,21 +44,12 @@ function isValidId(
     shard: number,
     sequenceId: number,
 ): boolean {
-    if (
-        type < 16
-        && time > INIT_DATE
-        && shard < 512
-        && sequenceId < 1024
-    ) return true
-    return false
+    if (type < 16 && time > INIT_DATE && shard < 512 && sequenceId < 1024)
+        return true;
+    return false;
 }
 
 export function isUserCode(id: string): boolean {
-    const decodedId = decodeId(id)
-    return isValidId(
-        decodedId[0],
-        decodedId[1],
-        decodedId[2],
-        decodedId[3],
-    )
+    const decodedId = decodeId(id);
+    return isValidId(decodedId[0], decodedId[1], decodedId[2], decodedId[3]);
 }

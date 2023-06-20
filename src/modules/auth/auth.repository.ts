@@ -1,10 +1,5 @@
 import { Auth } from "src/entities/Auth.entity";
-import {
-  EntityRepository,
-  Repository,
-} from "typeorm";
+import { EntityRepository, Repository } from "typeorm";
 
 @EntityRepository(Auth)
-export class AuthRepository extends Repository<Auth> {
-
-}
+export class AuthRepository extends Repository<Auth> {}

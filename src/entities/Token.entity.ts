@@ -1,8 +1,4 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-} from "typeorm";
+import { BaseEntity, Column, Entity } from "typeorm";
 
 @Entity("token")
 export class Token extends BaseEntity {

@@ -1,11 +1,6 @@
 import Request from "fastify";
 
-import {
-  Controller,
-  Get,
-  Req,
-  UseGuards,
-} from "@nestjs/common";
+import { Controller, Get, Req, UseGuards } from "@nestjs/common";
 
 import { AppService } from "./app.service";
 import { BaseError } from "./exceptions/errors/base.error";
@@ -17,14 +12,12 @@ import { RolesGuard } from "./validators/roles.guard";
 @Controller()
 @UseGuards(RolesGuard)
 export class AppController {
-    constructor(
-        private readonly appService: AppService,
-    ) { }
+    constructor(private readonly appService: AppService) {}
 
     @Get("profile")
     async getHello(@Req() request: Request): Promise<string> {
-        console.log(startTimeOfDay())
-        console.log(startTimeOfDay(false))
+        console.log(startTimeOfDay());
+        console.log(startTimeOfDay(false));
 
         return JSON.stringify([this.appService.getHello(), request.headers]);
     }
@@ -32,11 +25,11 @@ export class AppController {
     @Get("exceptions")
     async TestException(@Req() request: Request): Promise<string> {
         try {
-            throw new ValidateError("validate", "fdf", 400)
+            throw new ValidateError("validate", "fdf", 400);
             // throwError<ValidateError>("database", "fdf", 400)
         } catch (e) {
             if (e instanceof ValidateError) {
-                console.log("ValidateError", e)
+                console.log("ValidateError", e);
             } else if (e instanceof DatabaseError) {
                 console.log("DatabaseError", e);
             } else if (e instanceof BaseError) {
@@ -44,7 +37,7 @@ export class AppController {
             }
         }
 
-        return "test"
+        return "test";
     }
 
     @Get("healthz")

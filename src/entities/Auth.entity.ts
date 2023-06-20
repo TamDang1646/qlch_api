@@ -1,8 +1,4 @@
-import {
-    BaseEntity,
-    Column,
-    Entity,
-} from "typeorm";
+import { BaseEntity, Column, Entity } from "typeorm";
 
 @Entity("auth")
 export class Auth extends BaseEntity {
@@ -45,5 +41,4 @@ export class Auth extends BaseEntity {
     //     super();
     //     Object.assign(this, partial);
     // }
-
 }

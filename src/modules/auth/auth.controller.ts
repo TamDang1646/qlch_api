@@ -8,18 +8,9 @@ import { telephoneCheckAndGet } from "src/utils/general.util";
 import { generateId } from "src/utils/id-generator.util";
 import { DataSource } from "typeorm";
 
-import {
-    Body,
-    Controller,
-    Get,
-    Patch,
-    Post,
-} from "@nestjs/common";
+import { Body, Controller, Get, Patch, Post } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import {
-    ApiBearerAuth,
-    ApiTags,
-} from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Customer } from "@src/entities/Customer.entity";
 
 import { AuthServices } from "./auth.service";
@@ -28,7 +19,7 @@ import { LoginDto } from "./dto/login.dto";
 import { UpdateDto } from "./dto/update.dto";
 
 @ApiBearerAuth()
-@ApiTags('Auths')
+@ApiTags("Auths")
 @Controller("auth")
 export class AuthController extends BaseController {
     constructor(
@@ -42,149 +33,160 @@ export class AuthController extends BaseController {
     }
 
     /**
-     * 
-     * @returns 
+     *
+     * @returns
      */
     @Get("/all")
     async test(): Promise<Auth[]> {
         try {
-            return await this.authService.getAll()
+            return await this.authService.getAll();
         } catch (error) {
-            this.throwErrorProcess(error)
+            this.throwErrorProcess(error);
         }
     }
 
-
     /**
-     * 
-     * @param createAuthBody 
-     * @returns 
+     *
+     * @param createAuthBody
+     * @returns
      */
     @Post("/register")
-    async register(
-        @Body() createAuthBody: CreateAuthDto
-    ): Promise<any> {
-        let data = new Auth()
-        let authRes
-        let userRes
-        let code = ""
-        const phoneNumber = telephoneCheckAndGet(createAuthBody.phoneNumber)
+    async register(@Body() createAuthBody: CreateAuthDto): Promise<any> {
+        let data = new Auth();
+        let authRes;
+        let userRes;
+        let code = "";
+        const phoneNumber = telephoneCheckAndGet(createAuthBody.phoneNumber);
         if (!phoneNumber) {
             throw new InvalidValueError(
                 "INVALID_PHONE_NUMBER",
                 "Invalid user phone",
-                ErrorCodes.INVALID_PHONE_NUMBER)
+                ErrorCodes.INVALID_PHONE_NUMBER,
+            );
         }
-        if (createAuthBody.password.trim().length < 8 || createAuthBody.rePassword.trim().length < 8) {
+        if (
+            createAuthBody.password.trim().length < 8 ||
+            createAuthBody.rePassword.trim().length < 8
+        ) {
             throw new InvalidValueError(
                 "Password must be longer than 8 characters",
                 "PASSWORD_INCORRECT",
-                ErrorCodes.PASSWORD_INCORRECT)
+                ErrorCodes.PASSWORD_INCORRECT,
+            );
         }
         if (createAuthBody.password != createAuthBody.rePassword) {
             throw new InvalidValueError(
                 "PASSWORD_INCORRECT",
                 "PASSWORD_INCORRECT",
-                ErrorCodes.PASSWORD_INCORRECT)
+                ErrorCodes.PASSWORD_INCORRECT,
+            );
         }
-        const userTypeId = 1
-        const shard = 511
-        const sequenceId = Math.floor(Math.random() * 1024)
-        code = generateId(userTypeId, Date.now(), shard, sequenceId)
+        const userTypeId = 1;
+        const shard = 511;
+        const sequenceId = Math.floor(Math.random() * 1024);
+        code = generateId(userTypeId, Date.now(), shard, sequenceId);
         try {
-            data.code = code
-            data.phoneNumber = phoneNumber
-            data.password = createAuthBody.rePassword
-            data.role = createAuthBody.role
-            authRes = await this.authService.createUser(data)
+            data.code = code;
+            data.phoneNumber = phoneNumber;
+            data.password = createAuthBody.rePassword;
+            data.role = createAuthBody.role;
+            authRes = await this.authService.createUser(data);
         } catch (err) {
             // since we have errors let's rollback changes we made
-            this.throwErrorProcess(err)
-            return
+            this.throwErrorProcess(err);
+            return;
         }
-        return authRes
+        return authRes;
     }
 
     /**
-     * 
-     * @param loginParams 
-     * @returns 
+     *
+     * @param loginParams
+     * @returns
      */
     @Post("/login")
-    async login(
-        @Body() loginParams: LoginDto
-    ): Promise<Customer> {
+    async login(@Body() loginParams: LoginDto): Promise<Customer> {
         console.log("body: ", loginParams);
-        let phoneNumber = telephoneCheckAndGet(loginParams.phoneNumber)
+        let phoneNumber = telephoneCheckAndGet(loginParams.phoneNumber);
         if (!phoneNumber) {
             throw new InvalidValueError(
                 "INVALID_PHONE_NUMBER",
                 "Invalid user phone",
-                ErrorCodes.INVALID_PHONE_NUMBER)
+                ErrorCodes.INVALID_PHONE_NUMBER,
+            );
         }
-        let authData
-        authData = await this.componentService.checkPhoneExist(phoneNumber)
+        let authData;
+        authData = await this.componentService.checkPhoneExist(phoneNumber);
         if (!authData) {
             throw new InvalidValueError(
                 "USER_NOT_EXIST",
                 "USER_NOT_EXIST",
-                ErrorCodes.USER_NOT_EXIST)
+                ErrorCodes.USER_NOT_EXIST,
+            );
         }
         if (authData && authData.password !== loginParams.password) {
             throw new InvalidValueError(
                 "PASSWORD_INCORRECT",
                 "PASSWORD_INCORRECT",
-                ErrorCodes.PASSWORD_INCORRECT)
+                ErrorCodes.PASSWORD_INCORRECT,
+            );
         }
-        return authData
+        return authData;
     }
 
-
     @Patch("/update")
-    async updateAuth(
-        @Body() updateParams: UpdateDto
-    ): Promise<any> {
-        if (updateParams.newPassword.trim().length < 8 || updateParams.rePassword.trim().length < 8) {
+    async updateAuth(@Body() updateParams: UpdateDto): Promise<any> {
+        if (
+            updateParams.newPassword.trim().length < 8 ||
+            updateParams.rePassword.trim().length < 8
+        ) {
             throw new InvalidValueError(
                 "Password must be longer than 8 characters",
                 "PASSWORD_INCORRECT",
-                ErrorCodes.PASSWORD_INCORRECT)
+                ErrorCodes.PASSWORD_INCORRECT,
+            );
         }
         if (updateParams.newPassword != updateParams.rePassword) {
             throw new InvalidValueError(
                 "PASSWORD_INCORRECT",
                 "PASSWORD_INCORRECT",
-                ErrorCodes.PASSWORD_INCORRECT)
+                ErrorCodes.PASSWORD_INCORRECT,
+            );
         }
-        let phoneNumber = telephoneCheckAndGet(updateParams.phoneNumber)
+        let phoneNumber = telephoneCheckAndGet(updateParams.phoneNumber);
         if (!phoneNumber) {
             throw new InvalidValueError(
                 "INVALID_PHONE_NUMBER",
                 "Invalid user phone",
-                ErrorCodes.INVALID_PHONE_NUMBER)
+                ErrorCodes.INVALID_PHONE_NUMBER,
+            );
         }
-        let authData
-        let userData
-        authData = await this.componentService.checkPhoneExist(phoneNumber)
+        let authData;
+        let userData;
+        authData = await this.componentService.checkPhoneExist(phoneNumber);
         if (!authData) {
             throw new InvalidValueError(
                 "USER_NOT_EXIST",
                 "USER_NOT_EXIST",
-                ErrorCodes.USER_NOT_EXIST)
+                ErrorCodes.USER_NOT_EXIST,
+            );
         }
         if (updateParams.newPassword != updateParams.rePassword) {
             throw new InvalidValueError(
                 "NEW_PASSWORD_INCORRECT",
                 "PASSWORD_INCORRECT",
-                ErrorCodes.PASSWORD_INCORRECT)
+                ErrorCodes.PASSWORD_INCORRECT,
+            );
         }
         try {
-            await this.authService.updateAuth(authData.id, { password: updateParams.newPassword })
+            await this.authService.updateAuth(authData.id, {
+                password: updateParams.newPassword,
+            });
         } catch (error) {
-            this.throwErrorProcess(error)
+            this.throwErrorProcess(error);
         }
         return {
-            message: "Update password success"
-        }
+            message: "Update password success",
+        };
     }
 }

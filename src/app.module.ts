@@ -1,9 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import {
-    APP_FILTER,
-    Reflector,
-} from "@nestjs/core";
+import { APP_FILTER, Reflector } from "@nestjs/core";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -29,7 +26,7 @@ import { ProductModule } from "./modules/product/product.module";
         AuthModule,
         ProductModule,
         BillsModule,
-        CustomerModule
+        CustomerModule,
     ],
     controllers: [AppController],
     providers: [
@@ -39,7 +36,4 @@ import { ProductModule } from "./modules/product/product.module";
         Reflector,
     ],
 })
-
-export class AppModule {
-
-}
+export class AppModule {}

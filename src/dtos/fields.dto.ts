@@ -1,19 +1,16 @@
-import {
-  IsOptional,
-  IsString,
-} from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 import { Property } from "src/utils/general.util";
 
 import { ApiProperty } from "@nestjs/swagger";
 
 import { BaseDto } from "../base/base.dto";
 
-class Obj { }
+class Obj {}
 
 export class Fields extends BaseDto<Obj> {
     @ApiProperty({
         required: false,
-        description: "fields"
+        description: "fields",
     })
     @IsOptional()
     @IsString()

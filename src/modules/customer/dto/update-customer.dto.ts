@@ -1,7 +1,4 @@
-import {
-    IsNumber,
-    IsOptional,
-} from "class-validator";
+import { IsNumber, IsOptional } from "class-validator";
 import { BaseDto } from "src/base/base.dto";
 
 import { ApiProperty } from "@nestjs/swagger";
@@ -12,47 +9,46 @@ export class UpdateCustomerDto extends BaseDto<Customer> {
     @ApiProperty({
         default: null,
         required: false,
-        description: "User's phoneNumber"
+        description: "User's phoneNumber",
     })
     @IsOptional()
     @Property()
-    phoneNumber: string
+    phoneNumber: string;
 
     @ApiProperty({
         default: null,
         required: false,
-        description: "User's email"
+        description: "User's email",
     })
     @IsOptional()
     @Property()
-    email: string
+    email: string;
 
     @ApiProperty({
         default: "New User",
         required: false,
-        description: "User's name"
+        description: "User's name",
     })
     @IsOptional()
     @Property()
-    name: string
+    name: string;
 
     @ApiProperty({
         default: 0,
         required: false,
-        description: "User's name"
+        description: "User's name",
     })
     @IsOptional()
     @IsNumber()
     @Property()
-    gender: number
+    gender: number;
 
     @ApiProperty({
         default: null,
         required: false,
-        description: "User's address"
+        description: "User's address",
     })
     @IsOptional()
     @Property()
-    address: string
-
+    address: string;
 }

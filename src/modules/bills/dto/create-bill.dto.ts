@@ -10,162 +10,162 @@ import { CreateCustomerDto } from "@src/modules/customer/dto/create-customer.dto
 import { CreateBillItemDto } from "@src/modules/bill-item/dto/create-bill-item.dto";
 
 class ItemDto extends BaseDto<Product> {
-  @ApiProperty({
-    description: "id",
-    required: true,
-  })
-  id: number;
+    @ApiProperty({
+        description: "id",
+        required: true,
+    })
+    id: number;
 
-  @ApiProperty({
-    description: "name",
-    required: true,
-  })
-  name: string;
+    @ApiProperty({
+        description: "name",
+        required: true,
+    })
+    name: string;
 
-  @ApiProperty({
-    description: "type",
-    required: true,
-  })
-  type: number;
+    @ApiProperty({
+        description: "type",
+        required: true,
+    })
+    type: number;
 
-  @ApiProperty({
-    description: "price",
-    required: true,
-  })
-  price: string;
+    @ApiProperty({
+        description: "price",
+        required: true,
+    })
+    price: string;
 
-  @ApiProperty({
-    description: "quantity",
-    required: true,
-  })
-  quantity: number;
+    @ApiProperty({
+        description: "quantity",
+        required: true,
+    })
+    quantity: number;
 
-  @ApiProperty({
-    description: "size",
-    required: true,
-  })
-  size: string;
+    @ApiProperty({
+        description: "size",
+        required: true,
+    })
+    size: string;
 }
 export class CreateBillDto extends BaseDto<Bills> {
-  @ApiProperty({
-    description: "Customer",
-    required: true,
-  })
-  // @IsString()
-  @IsObject()
-  @Property()
-  @Type(() => CreateCustomerDto)
-  customer: CreateCustomerDto;
+    @ApiProperty({
+        description: "Customer",
+        required: true,
+    })
+    // @IsString()
+    @IsObject()
+    @Property()
+    @Type(() => CreateCustomerDto)
+    customer: CreateCustomerDto;
 
-  @ApiProperty({
-    description: "Items",
-    required: true,
-    default: [],
-  })
-  @IsArray()
-  @Property()
-  @ArrayMinSize(1)
-  @Type(() => CreateBillItemDto)
-  items: CreateBillItemDto[];
+    @ApiProperty({
+        description: "Items",
+        required: true,
+        default: [],
+    })
+    @IsArray()
+    @Property()
+    @ArrayMinSize(1)
+    @Type(() => CreateBillItemDto)
+    items: CreateBillItemDto[];
 
-  @ApiProperty({
-    description: "Start",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  start: number;
+    @ApiProperty({
+        description: "Start",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    start: number;
 
-  @ApiProperty({
-    description: "End",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  end: number;
+    @ApiProperty({
+        description: "End",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    end: number;
 
-  @ApiProperty({
-    description: "address",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  address: string;
+    @ApiProperty({
+        description: "address",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    address: string;
 
-  @ApiProperty({
-    description: "deposit",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  deposit: string;
+    @ApiProperty({
+        description: "deposit",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    deposit: string;
 }
 
 export class BillDto {
-  @ApiProperty({
-    description: "CustomerId",
-    required: true,
-  })
-  // @IsString()
-  @Property()
-  customerId: number;
+    @ApiProperty({
+        description: "CustomerId",
+        required: true,
+    })
+    // @IsString()
+    @Property()
+    customerId: number;
 
-  @ApiProperty({
-    description: "Start",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  start: number;
+    @ApiProperty({
+        description: "Start",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    start: number;
 
-  @ApiProperty({
-    description: "End",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  end: number;
+    @ApiProperty({
+        description: "End",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    end: number;
 
-  @ApiProperty({
-    description: "address",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  address: string;
+    @ApiProperty({
+        description: "address",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    address: string;
 
-  @ApiProperty({
-    description: "deposit",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  deposit: string;
+    @ApiProperty({
+        description: "deposit",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    deposit: string;
 
-  @ApiProperty({
-    description: "totalPrice",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  totalPrice: string;
+    @ApiProperty({
+        description: "totalPrice",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    totalPrice: string;
 
-  @ApiProperty({
-    description: "paid",
-    required: true,
-    default: 0,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  paid: number;
+    @ApiProperty({
+        description: "paid",
+        required: true,
+        default: 0,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    paid: number;
 }

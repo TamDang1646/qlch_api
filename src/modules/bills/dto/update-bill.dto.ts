@@ -8,90 +8,90 @@ import { CreateBillItemDto } from "@src/modules/bill-item/dto/create-bill-item.d
 import { UpdateBillItemDto } from "@src/modules/bill-item/dto/update-bill-item.dto";
 
 class CustomerInfo {
-  @ApiProperty({
-    description: "name",
-    required: true,
-  })
-  name: string;
+    @ApiProperty({
+        description: "name",
+        required: true,
+    })
+    name: string;
 
-  @ApiProperty({
-    description: "phoneNumber",
-    required: true,
-  })
-  phoneNumber: string;
+    @ApiProperty({
+        description: "phoneNumber",
+        required: true,
+    })
+    phoneNumber: string;
 
-  @ApiProperty({
-    description: "address",
-    required: true,
-  })
-  address: string;
+    @ApiProperty({
+        description: "address",
+        required: true,
+    })
+    address: string;
 }
 
 export class UpdateCustomerInfor extends PartialType(CustomerInfo) {
-  @ApiProperty({
-    description: "id of customer",
-  })
-  id: number;
+    @ApiProperty({
+        description: "id of customer",
+    })
+    id: number;
 }
 export class UpdateBillDto extends BaseDto<Bills> {
-  @ApiProperty({
-    description: "Customer",
-    required: true,
-  })
-  // @IsString()
-  @Property()
-  @IsNumber()
-  customer: CustomerInfo;
+    @ApiProperty({
+        description: "Customer",
+        required: true,
+    })
+    // @IsString()
+    @Property()
+    @IsNumber()
+    customer: CustomerInfo;
 
-  @ApiProperty({
-    description: "ItemId",
-    required: true,
-  })
-  @Property()
-  items: UpdateBillItemDto[];
+    @ApiProperty({
+        description: "ItemId",
+        required: true,
+    })
+    @Property()
+    items: UpdateBillItemDto[];
 
-  @ApiProperty({
-    description: "Start",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  start: number;
+    @ApiProperty({
+        description: "Start",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    start: number;
 
-  @ApiProperty({
-    description: "End",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  end: number;
+    @ApiProperty({
+        description: "End",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    end: number;
 
-  @ApiProperty({
-    description: "address",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  address: string;
+    @ApiProperty({
+        description: "address",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    address: string;
 
-  @ApiProperty({
-    description: "deposit",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  deposit: string;
+    @ApiProperty({
+        description: "deposit",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    deposit: string;
 
-  @ApiProperty({
-    description: "Quantity",
-    required: true,
-  })
-  // @IsNumber()
-  @Property()
-  @IsOptional()
-  quantity: number;
+    @ApiProperty({
+        description: "Quantity",
+        required: true,
+    })
+    // @IsNumber()
+    @Property()
+    @IsOptional()
+    quantity: number;
 }

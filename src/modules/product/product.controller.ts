@@ -11,10 +11,7 @@ import {
     Post,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import {
-    ApiBearerAuth,
-    ApiTags,
-} from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { MessageComponent } from "@src/components/message.component";
 import { ErrorCodes } from "@src/constants/error-code.const";
 import { TokenDto } from "@src/dtos/token.dto";
@@ -45,9 +42,9 @@ export class ProductController extends BaseController {
     @Get()
     async getAll(): Promise<Product[]> {
         try {
-            return await this.productService.getAll()
+            return await this.productService.getAll();
         } catch (error) {
-            this.throwErrorProcess(error)
+            this.throwErrorProcess(error);
         }
         // return;
     }

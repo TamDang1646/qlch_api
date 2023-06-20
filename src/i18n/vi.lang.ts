@@ -1,5 +1,5 @@
-const lang = new Map<string, string>()
+const lang = new Map<string, string>();
 
-const viLangs = lang
+const viLangs = lang;
 
-export default viLangs
+export default viLangs;
