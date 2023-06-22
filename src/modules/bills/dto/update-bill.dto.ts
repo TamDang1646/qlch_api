@@ -41,7 +41,7 @@ export class UpdateBillDto extends BaseDto<Bills> {
     // @IsString()
     @Property()
     @IsOptional()
-    customer: CustomerInfo;
+    customer: UpdateCustomerInfor;
 
     @ApiProperty({
         description: "ItemId",

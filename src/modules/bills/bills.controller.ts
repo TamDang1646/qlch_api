@@ -29,6 +29,7 @@ import { CreateBillDto } from "./dto/create-bill.dto";
 import { GetBillDto } from "./dto/get-bill.dto";
 import { UpdateBillDto } from "./dto/update-bill.dto";
 import { BillItems } from "@src/entities/BillItem.entity";
+import { Customer } from "@src/entities/Customer.entity";
 
 @ApiBearerAuth()
 @ApiTags("Bills")
@@ -254,6 +255,11 @@ export class BillsController extends BaseController {
                     deposit: updateData.deposit,
                 }),
             );
+            if (updateData.customer.id) {
+                await this.dataSource
+                    .getRepository(Customer)
+                    .update(updateData.customer.id, { ...updateData.customer });
+            }
 
             const exits = updateData.items.filter((i) => i.id != undefined);
             const exitsIds = exits.map((i) => i.id);
