@@ -171,7 +171,7 @@ export class BillsController extends BaseController {
                 await Promise.all(
                     billItem.map((i) => {
                         return this.dataSource.getRepository(Product).update(
-                            { id: i.id },
+                            { id: i.itemId },
                             {
                                 quantity: () => `quantity - ${i.quantity}`,
                             },
@@ -246,9 +246,17 @@ export class BillsController extends BaseController {
         try {
             const bill = await this.billsService.updateBillsById(
                 id,
-                updateData as unknown as Record<string, unknown>,
+                // updateData as unknown as Record<string, unknown>,
+                new Bills({
+                    start: new Date(parseInt(`${updateData.start}`)),
+                    end: new Date(parseInt(`${updateData.end}`)),
+                    address: updateData.address,
+                    deposit: updateData.deposit,
+                }),
             );
-            const exitsIds = updateData.items.filter((i) => i.id != undefined);
+
+            const exits = updateData.items.filter((i) => i.id != undefined);
+            const exitsIds = exits.map((i) => i.id);
             const oldBillItems = await this.dataSource
                 .getRepository(BillItems)
                 .findBy({ id: In(exitsIds) });
@@ -256,11 +264,21 @@ export class BillsController extends BaseController {
                 oldBillItems.map((i) => {
                     const item = updateData.items.find((up) => up.id == i.id);
                     return this.dataSource.getRepository(Product).update(
+                        { id: i.itemId },
+                        {
+                            quantity: () =>
+                                `quantity - ${item.quantity - i.quantity}`,
+                        },
+                    );
+                }),
+            );
+            await Promise.all(
+                oldBillItems.map((i) => {
+                    const item = updateData.items.find((up) => up.id == i.id);
+                    return this.dataSource.getRepository(BillItems).update(
                         { id: i.id },
                         {
                             ...item,
-                            quantity: () =>
-                                `quantity - ${item.quantity - i.quantity}`,
                         },
                     );
                 }),
@@ -280,7 +298,7 @@ export class BillsController extends BaseController {
                 .findBy({ billId: id });
             const PrdbillItems = await this.dataSource
                 .getRepository(Product)
-                .find({ where: { id: In(billItems.map((i) => i.id)) } });
+                .find({ where: { id: In(billItems.map((i) => i.itemId)) } });
 
             let totalPrice = PrdbillItems.reduce(function (total, item) {
                 return (
@@ -292,8 +310,13 @@ export class BillsController extends BaseController {
             await this.dataSource
                 .getRepository(Bills)
                 .update({ id: bill.id }, { totalPrice: totalPrice.toString() });
-            return this.dataSource.getRepository(Bills).findOneBy({ id: id });
+            const newBill = await this.dataSource
+                .getRepository(Bills)
+                .findOneBy({ id: id });
+            return { bill: newBill, items: billItems };
         } catch (error) {
+            console.log(error.stack);
+
             this.throwErrorProcess(error);
         }
     }

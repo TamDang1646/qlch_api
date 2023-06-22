@@ -40,7 +40,7 @@ export class UpdateBillDto extends BaseDto<Bills> {
     })
     // @IsString()
     @Property()
-    @IsNumber()
+    @IsOptional()
     customer: CustomerInfo;
 
     @ApiProperty({
@@ -48,6 +48,7 @@ export class UpdateBillDto extends BaseDto<Bills> {
         required: true,
     })
     @Property()
+    @IsOptional()
     items: UpdateBillItemDto[];
 
     @ApiProperty({
