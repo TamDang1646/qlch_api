@@ -313,9 +313,13 @@ export class BillsController extends BaseController {
                         billItems.find((x) => x.itemId == item.id).quantity
                 );
             }, 0);
+            let paid = parseFloat(updateData.deposit) >= totalPrice ? 1 : 0;
             await this.dataSource
                 .getRepository(Bills)
-                .update({ id: bill.id }, { totalPrice: totalPrice.toString() });
+                .update(
+                    { id: bill.id },
+                    { totalPrice: totalPrice.toString(), paid },
+                );
             const newBill = await this.dataSource
                 .getRepository(Bills)
                 .findOneBy({ id: id });
