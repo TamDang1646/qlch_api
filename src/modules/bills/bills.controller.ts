@@ -255,20 +255,28 @@ export class BillsController extends BaseController {
                     deposit: updateData.deposit,
                 }),
             );
-            if (updateData.customer.id) {
+            if (updateData.customer?.id) {
                 await this.dataSource
                     .getRepository(Customer)
                     .update(updateData.customer.id, { ...updateData.customer });
             }
+            if (
+                Array.isArray(updateData.deleteBillItemIds) &&
+                updateData.deleteBillItemIds.length > 0
+            ) {
+                await this.dataSource
+                    .getRepository(BillItems)
+                    .delete({ id: In(updateData.deleteBillItemIds) });
+            }
 
-            const exits = updateData.items.filter((i) => i.id != undefined);
-            const exitsIds = exits.map((i) => i.id);
+            const exits = updateData.items?.filter((i) => i.id != undefined);
+            const exitsIds = exits?.map((i) => i.id);
             const oldBillItems = await this.dataSource
                 .getRepository(BillItems)
                 .findBy({ id: In(exitsIds) });
             await Promise.all(
                 oldBillItems.map((i) => {
-                    const item = updateData.items.find((up) => up.id == i.id);
+                    const item = updateData.items?.find((up) => up.id == i.id);
                     return this.dataSource.getRepository(Product).update(
                         { id: i.itemId },
                         {
@@ -280,7 +288,7 @@ export class BillsController extends BaseController {
             );
             await Promise.all(
                 oldBillItems.map((i) => {
-                    const item = updateData.items.find((up) => up.id == i.id);
+                    const item = updateData.items?.find((up) => up.id == i.id);
                     return this.dataSource.getRepository(BillItems).update(
                         { id: i.id },
                         {

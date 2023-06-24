@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional } from "class-validator";
+import { IsArray, IsNumber, IsOptional } from "class-validator";
 import { BaseDto } from "src/base/base.dto";
 import { Property } from "src/utils/general.util";
 
@@ -42,6 +42,12 @@ export class UpdateBillDto extends BaseDto<Bills> {
     @Property()
     @IsOptional()
     customer: UpdateCustomerInfor;
+
+    @ApiProperty({
+        description: "delete billitem ids",
+    })
+    @IsOptional()
+    deleteBillItemIds: number[];
 
     @ApiProperty({
         description: "ItemId",
