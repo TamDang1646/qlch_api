@@ -1,11 +1,6 @@
-import {
-    MigrationInterface,
-    QueryRunner,
-    Table,
-} from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateAuthTable1684492546802 implements MigrationInterface {
-
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
@@ -17,19 +12,19 @@ export class CreateAuthTable1684492546802 implements MigrationInterface {
                         length: "11",
                         isPrimary: true,
                         isGenerated: true,
-                        generationStrategy: "increment"
+                        generationStrategy: "increment",
                     },
                     {
                         name: "code",
                         type: "varchar",
                         length: "12",
-                        isUnique: true
+                        isUnique: true,
                     },
                     {
                         name: "phone_number",
                         type: "varchar",
                         length: "50",
-                        isUnique: true
+                        isUnique: true,
                     },
                     {
                         name: "password",
@@ -62,5 +57,4 @@ export class CreateAuthTable1684492546802 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable("auth");
     }
-
 }

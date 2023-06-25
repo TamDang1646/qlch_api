@@ -15,15 +15,16 @@ import { AuthController } from "./auth.controller";
 import { AuthServices } from "./auth.service";
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([Auth, Customer, BillItems, Product]),
-
+    imports: [TypeOrmModule.forFeature([Auth, Customer, BillItems, Product])],
+    providers: [
+        AuthServices,
+        MessageComponent,
+        ApiResponseService,
+        ComponentService,
+        BillItemsService,
+        ProductService,
     ],
-    providers: [AuthServices, MessageComponent, ApiResponseService, ComponentService, BillItemsService, ProductService],
     exports: [TypeOrmModule, AuthServices, AuthServices],
     controllers: [AuthController],
 })
-
-export class AuthModule {
-
-}
+export class AuthModule {}

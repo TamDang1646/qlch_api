@@ -1,1 +1,1 @@
-export type strOrNo = string | number
+export type strOrNo = string | number;

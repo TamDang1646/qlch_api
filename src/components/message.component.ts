@@ -4,20 +4,20 @@ import langs from "../i18n/index";
 
 @Injectable()
 export class MessageComponent {
-    static langs: Map<string, Map<string, string>>
-    languageDefault = "vi"
+    static langs: Map<string, Map<string, string>>;
+    languageDefault = "vi";
 
     static init(): void {
-        MessageComponent.langs = langs
+        MessageComponent.langs = langs;
     }
 
     lang(message: string, language: string = null): string {
-        const lang = language ? language : this.languageDefault
+        const lang = language ? language : this.languageDefault;
 
         if (MessageComponent.langs && MessageComponent.langs.has(lang)) {
-            return MessageComponent.langs.get(lang).get(message) ?? message
+            return MessageComponent.langs.get(lang).get(message) ?? message;
         }
 
-        return message
+        return message;
     }
 }

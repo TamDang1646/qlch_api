@@ -1,11 +1,6 @@
-import {
-    MigrationInterface,
-    QueryRunner,
-    Table,
-} from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateBillsItemsTable1684493482551 implements MigrationInterface {
-
     async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
@@ -17,7 +12,7 @@ export class CreateBillsItemsTable1684493482551 implements MigrationInterface {
                         length: "11",
                         isPrimary: true,
                         isGenerated: true,
-                        generationStrategy: "increment"
+                        generationStrategy: "increment",
                     },
                     {
                         name: "billId",
@@ -52,11 +47,9 @@ export class CreateBillsItemsTable1684493482551 implements MigrationInterface {
                 ],
             }),
         );
-
     }
 
     async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable("bills-item");
     }
-
 }

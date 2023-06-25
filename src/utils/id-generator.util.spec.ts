@@ -1,7 +1,4 @@
-import {
-  decodeId,
-  generateId,
-} from "./id-generator.util";
+import { decodeId, generateId } from "./id-generator.util";
 
 test("generateId_ValidInput_ReturnId", () => {
     const type = 1;
@@ -24,7 +21,7 @@ test("generateId_InvalidTypeIdInput_ThrowError", () => {
     const shard = 43;
     const sequenceId = 354;
 
-    expect(generateId(type, time, shard, sequenceId)).toBe(null)
+    expect(generateId(type, time, shard, sequenceId)).toBe(null);
 });
 
 test("generateId_InvalidTimeIdInput_ThrowError", () => {
@@ -33,7 +30,7 @@ test("generateId_InvalidTimeIdInput_ThrowError", () => {
     const shard = 43;
     const sequenceId = 354;
 
-    expect(generateId(type, time, shard, sequenceId)).toBe(null)
+    expect(generateId(type, time, shard, sequenceId)).toBe(null);
 });
 
 test("generateId_InvalidShardIdInput_ThrowError", () => {
@@ -42,7 +39,7 @@ test("generateId_InvalidShardIdInput_ThrowError", () => {
     const shard = 43423;
     const sequenceId = 354;
 
-    expect(generateId(type, time, shard, sequenceId)).toBe(null)
+    expect(generateId(type, time, shard, sequenceId)).toBe(null);
 });
 
 test("generateId_InvalidSequenceIdIdInput_ThrowError", () => {
@@ -51,7 +48,7 @@ test("generateId_InvalidSequenceIdIdInput_ThrowError", () => {
     const shard = 43;
     const sequenceId = 3545;
 
-    expect(generateId(type, time, shard, sequenceId)).toBe(null)
+    expect(generateId(type, time, shard, sequenceId)).toBe(null);
 });
 
 test("decodeId_ValidInput_ReturnArray", () => {

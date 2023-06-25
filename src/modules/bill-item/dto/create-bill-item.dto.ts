@@ -3,27 +3,25 @@ import { ApiProperty } from "@nestjs/swagger";
 export class CreateBillItemDto {
     @ApiProperty({
         description: "billId",
-        required: true
+        required: true,
     })
-    billId: number
+    billId: number;
 
     @ApiProperty({
         description: "itemId",
-        required: true
+        required: true,
     })
-    itemId: number
-
+    itemId: number;
 
     @ApiProperty({
         description: "size",
-        required: true
+        required: true,
     })
-    size: string
+    size: string;
 
     @ApiProperty({
         description: "quantity",
-        required: true
+        required: true,
     })
-    quantity: number
-
+    quantity: number;
 }

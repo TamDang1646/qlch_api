@@ -1,10 +1,7 @@
 import queryString from "query-string";
 import { PaginationDto } from "src/base/pagination.dto";
 import { ErrorCodes } from "src/constants/error-code.const";
-import {
-    toSnakeCase,
-    trim,
-} from "src/utils/general.util";
+import { toSnakeCase, trim } from "src/utils/general.util";
 import { throwNotFound } from "src/utils/throw-exception.util";
 import {
     BaseEntity,
@@ -23,37 +20,38 @@ import { LoggerService } from "../logger/custom.logger";
 import { BaseDto } from "./base.dto";
 import { BaseServiceInterface } from "./base.service.interface";
 
-export class BaseService<T extends BaseEntity, R extends Repository<T>> implements BaseServiceInterface<T> {
-    protected readonly repository: R
-    protected readonly logger: LoggerService
+export class BaseService<T extends BaseEntity, R extends Repository<T>>
+    implements BaseServiceInterface<T>
+{
+    protected readonly repository: R;
+    protected readonly logger: LoggerService;
 
     /**
-     * @param {R} repository 
-     * @param {LoggerService} logger 
+     * @param {R} repository
+     * @param {LoggerService} logger
      */
     constructor(repository: R, logger?: LoggerService) {
-        this.repository = repository
-        this.logger = logger
+        this.repository = repository;
+        this.logger = logger;
     }
 
     /**
      * @returns Promise<T[]>
      */
     index(): Promise<T[]> {
-        return this.repository.find()
+        return this.repository.find();
     }
 
     /**
-     * @param {FindManyOptions<T>} options 
+     * @param {FindManyOptions<T>} options
      * @returns Promise<number>
      */
     async count(options?: FindManyOptions<T>): Promise<number> {
-
-        return this.repository.count(options)
+        return this.repository.count(options);
     }
 
     /**
-     * @param {EntityId} id 
+     * @param {EntityId} id
      * @returns Promise<T>
      */
     // findById(id?: string | number): Promise<T> {
@@ -61,45 +59,48 @@ export class BaseService<T extends BaseEntity, R extends Repository<T>> implemen
     // }
 
     /**
-     * @param {number[]} ids 
+     * @param {number[]} ids
      * @returns
      */
     findByIds(ids: number[]) {
-        return this.repository.findByIds(ids)
+        return this.repository.findByIds(ids);
     }
 
     /**
-     * @param {EntityId} id 
+     * @param {EntityId} id
      * @returns Promise<DeleteResult>
      */
     delete(id: EntityId): Promise<DeleteResult> {
-        return this.repository.delete(id)
+        return this.repository.delete(id);
     }
 
     /**
      * @returns Promise<T>
      */
     async findOne(conditions: FindOptionsWhere<T>): Promise<T> {
-        return this.repository.findOne({ where: conditions })
+        return this.repository.findOne({ where: conditions });
     }
 
     /**
-     * @param {FindOptionsWhere<T>} conditions 
-     * @param {FindOneOptions<T>} options 
+     * @param {FindOptionsWhere<T>} conditions
+     * @param {FindOneOptions<T>} options
      * @returns Promise<T>
      */
-    async getOne(contidions: FindOptionsWhere<T>, fields?: string[]): Promise<T> {
-        const findOneoptions: FindOneOptions<T> = { where: contidions }
+    async getOne(
+        contidions: FindOptionsWhere<T>,
+        fields?: string[],
+    ): Promise<T> {
+        const findOneoptions: FindOneOptions<T> = { where: contidions };
 
         if (fields) {
-            findOneoptions.select = fields as (keyof T)[]
+            findOneoptions.select = fields as (keyof T)[];
         }
 
-        return this.repository.findOne(findOneoptions)
+        return this.repository.findOne(findOneoptions);
     }
 
     /**
-     * @param {number} id 
+     * @param {number} id
      * @returns Promise<DeleteResult>
      */
     async remove(id: number): Promise<DeleteResult> {
@@ -107,59 +108,76 @@ export class BaseService<T extends BaseEntity, R extends Repository<T>> implemen
     }
 
     /**
-     * @param {FindOptionsWhere<T>} conditions 
+     * @param {FindOptionsWhere<T>} conditions
      * @returns Promise<DeleteResult>
      */
-    async removeOne(criteria: string | string[] | number | number[] | Date | Date[] | ObjectId | ObjectId[] | FindOptionsWhere<T>) {
-        return await this.repository.delete(criteria)
+    async removeOne(
+        criteria:
+            | string
+            | string[]
+            | number
+            | number[]
+            | Date
+            | Date[]
+            | ObjectId
+            | ObjectId[]
+            | FindOptionsWhere<T>,
+    ) {
+        return await this.repository.delete(criteria);
     }
 
     /**
-     * @param {Record<string, unknown>} data 
-     * @returns 
+     * @param {Record<string, unknown>} data
+     * @returns
      */
     async save(data: any): Promise<T> {
-        return this.repository.save(data)
+        return this.repository.save(data);
     }
 
     /**
-     * @param {number} id 
-     * @param {any} data 
-     * @returns 
+     * @param {number} id
+     * @param {any} data
+     * @returns
      */
     async update(id: number, data: any): Promise<UpdateResult> {
-        return this.repository.update(id, data)
+        return this.repository.update(id, data);
     }
 
     /**
-     * @param {number} page 
-     * @param {number} limit 
-     * @param {string[]} fields 
+     * @param {number} page
+     * @param {number} limit
+     * @param {string[]} fields
      * @returns Promise<PaginationDto<T>>
      */
-    async paginate(page: number, limit: number, fields?: string[]): Promise<PaginationDto<T>> {
-        const totalRecords = await this.repository.count()
-        const totalPage = (totalRecords % limit) === 0 ? totalRecords / limit : Math.floor(totalRecords / limit) + 1
+    async paginate(
+        page: number,
+        limit: number,
+        fields?: string[],
+    ): Promise<PaginationDto<T>> {
+        const totalRecords = await this.repository.count();
+        const totalPage =
+            totalRecords % limit === 0
+                ? totalRecords / limit
+                : Math.floor(totalRecords / limit) + 1;
 
         if (page > totalPage || page <= 0) {
             throwNotFound(
                 "RECORD_NOT_FOUND",
                 "No record was found",
-                ErrorCodes.RECORD_NOT_FOUND
-            )
+                ErrorCodes.RECORD_NOT_FOUND,
+            );
         }
 
-
-        const offset = page === 1 ? 0 : limit * (page - 1)
+        const offset = page === 1 ? 0 : limit * (page - 1);
 
         const data = await this.repository.find({
-            select: (fields) ? fields as (keyof T)[] : null,
+            select: fields ? (fields as (keyof T)[]) : null,
             skip: offset,
-            take: limit
-        })
+            take: limit,
+        });
 
-        const next = (page < totalPage) ? `page=${page - -1}&limit=${limit}` : ""
-        const prev = (page > 1) ? `page=${page - 1}&limit=${limit}` : ""
+        const next = page < totalPage ? `page=${page - -1}&limit=${limit}` : "";
+        const prev = page > 1 ? `page=${page - 1}&limit=${limit}` : "";
 
         return {
             data: data,
@@ -169,39 +187,44 @@ export class BaseService<T extends BaseEntity, R extends Repository<T>> implemen
 
                     links: {
                         next: next,
-                        prev: prev
+                        prev: prev,
                     },
                     limit: limit,
                     total: totalRecords,
-                    totalPages: totalPage
-                }
-            }
-        }
+                    totalPages: totalPage,
+                },
+            },
+        };
     }
 
     /**
-     * @param page 
-     * @param limit 
-     * @param fields 
-     * @returns 
+     * @param page
+     * @param limit
+     * @param fields
+     * @returns
      */
-    async iPaginateSelect(filters: BaseDto<T>, page: number, limit: number, fields?: string[]): Promise<PaginationDto<T>> {
-        const jobTable = this.repository.metadata.tableName
+    async iPaginateSelect(
+        filters: BaseDto<T>,
+        page: number,
+        limit: number,
+        fields?: string[],
+    ): Promise<PaginationDto<T>> {
+        const jobTable = this.repository.metadata.tableName;
 
         const query = this.repository.createQueryBuilder(jobTable);
         if (fields) {
-            query.select(`${jobTable}.${toSnakeCase("id")}`)
+            query.select(`${jobTable}.${toSnakeCase("id")}`);
 
-            fields.forEach(field => {
-                query.addSelect(`${jobTable}.${field}`)
-            })
+            fields.forEach((field) => {
+                query.addSelect(`${jobTable}.${field}`);
+            });
         }
 
-        Object.keys(filters).forEach(key => {
-            const obj: Record<string, unknown> = {}
-            obj[key] = filters[key]
+        Object.keys(filters).forEach((key) => {
+            const obj: Record<string, unknown> = {};
+            obj[key] = filters[key];
 
-            query.andWhere(`${jobTable}.${toSnakeCase(key)}=:${key}`, obj)
+            query.andWhere(`${jobTable}.${toSnakeCase(key)}=:${key}`, obj);
         });
 
         this.logger.debug(query.getSql());
@@ -210,22 +233,22 @@ export class BaseService<T extends BaseEntity, R extends Repository<T>> implemen
             query,
             page,
             limit,
-            queryString.stringify(filters)
+            queryString.stringify(filters),
         );
     }
 
     /**
-     * @param queryBuilder 
-     * @param page 
-     * @param limit 
-     * @param queryString 
-     * @returns 
+     * @param queryBuilder
+     * @param page
+     * @param limit
+     * @param queryString
+     * @returns
      */
     async iPaginate<T>(
         queryBuilder: SelectQueryBuilder<T>,
         page: number,
         limit: number,
-        queryString?: string
+        queryString?: string,
     ): Promise<PaginationDto<T>> {
         const skip = (page - 1) * limit;
         const [items, total] = await queryBuilder
@@ -237,13 +260,23 @@ export class BaseService<T extends BaseEntity, R extends Repository<T>> implemen
             throwNotFound(
                 "RECORD_NOT_FOUND",
                 "No record was found",
-                ErrorCodes.RECORD_NOT_FOUND
-            )
+                ErrorCodes.RECORD_NOT_FOUND,
+            );
         }
 
-        const totalPage = (total % limit) === 0 ? 0 : Math.ceil(total / limit)
-        const next = page < totalPage ? `${queryString ? queryString + "&" : ""}page=${page - -1}&limit=${limit}` : queryString ?? ""
-        const prev = page > 1 ? `${queryString ? queryString + "&" : ""}page=${page - 1}&limit=${limit}` : queryString ?? ""
+        const totalPage = total % limit === 0 ? 0 : Math.ceil(total / limit);
+        const next =
+            page < totalPage
+                ? `${queryString ? queryString + "&" : ""}page=${
+                      page - -1
+                  }&limit=${limit}`
+                : queryString ?? "";
+        const prev =
+            page > 1
+                ? `${queryString ? queryString + "&" : ""}page=${
+                      page - 1
+                  }&limit=${limit}`
+                : queryString ?? "";
 
         return {
             data: items,
@@ -252,63 +285,76 @@ export class BaseService<T extends BaseEntity, R extends Repository<T>> implemen
                     currentPage: Number(page),
                     links: {
                         next: next,
-                        prev: prev
+                        prev: prev,
                     },
                     limit: limit,
                     total: total,
-                    totalPages: totalPage
-                }
-            }
-        }
+                    totalPages: totalPage,
+                },
+            },
+        };
     }
 
     /**
-     * @param queryBuilder 
-     * @param page 
-     * @param limit 
+     * @param queryBuilder
+     * @param page
+     * @param limit
      * @param queryString
-     * @returns 
+     * @returns
      */
     async iPaginateCustom<T>(
         queryBuilder: SelectQueryBuilder<T>,
         page: number,
         limit: number,
         queryString?: string,
-        customTable = null
+        customTable = null,
     ): Promise<PaginationDto<T>> {
         const skip = (page - 1) * limit;
 
-        const total = await queryBuilder.getCount()
-        const list = await queryBuilder.getRawMany()
-        const jobTable = customTable ?? this.repository.metadata.tableName
+        const total = await queryBuilder.getCount();
+        const list = await queryBuilder.getRawMany();
+        const jobTable = customTable ?? this.repository.metadata.tableName;
 
-        const listResult: T[] = list.map(item => {
-            const a: Record<string, unknown> = {}
+        const listResult: T[] = list.map((item) => {
+            const a: Record<string, unknown> = {};
 
-            Object.keys(item).forEach(key => {
+            Object.keys(item).forEach((key) => {
                 if (key.lastIndexOf("id") === key.length - 2) {
                     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-                    a[trim(key, jobTable + "_", true)] = parseInt(item[key] ?? 0, 10)
+                    a[trim(key, jobTable + "_", true)] = parseInt(
+                        item[key] ?? 0,
+                        10,
+                    );
                 } else {
                     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-                    a[trim(key, jobTable + "_", true)] = item[key], 10
+                    (a[trim(key, jobTable + "_", true)] = item[key]), 10;
                 }
-            })
+            });
 
-            return a as T
-        })
+            return a as T;
+        });
 
         if (total <= 0) {
             throwNotFound(
                 "RECORD_NOT_FOUND",
                 "No record was found",
-                ErrorCodes.RECORD_NOT_FOUND
-            )
+                ErrorCodes.RECORD_NOT_FOUND,
+            );
         }
 
-        const totalPage = (total % limit) === 0 ? 0 : Math.ceil(total / limit)
-        const next = page < totalPage ? `${queryString ? queryString + "&" : ""}page=${page - -1}&limit=${limit}` : queryString ?? ""
-        const prev = page > 1 ? `${queryString ? queryString + "&" : ""}page=${page - 1}&limit=${limit}` : queryString ?? ""
+        const totalPage = total % limit === 0 ? 0 : Math.ceil(total / limit);
+        const next =
+            page < totalPage
+                ? `${queryString ? queryString + "&" : ""}page=${
+                      page - -1
+                  }&limit=${limit}`
+                : queryString ?? "";
+        const prev =
+            page > 1
+                ? `${queryString ? queryString + "&" : ""}page=${
+                      page - 1
+                  }&limit=${limit}`
+                : queryString ?? "";
 
         return {
             data: listResult,
@@ -317,14 +363,13 @@ export class BaseService<T extends BaseEntity, R extends Repository<T>> implemen
                     currentPage: Number(page),
                     links: {
                         next: next,
-                        prev: prev
+                        prev: prev,
                     },
                     limit: limit,
                     total: total,
-                    totalPages: totalPage
-                }
-            }
-        }
+                    totalPages: totalPage,
+                },
+            },
+        };
     }
-
 }

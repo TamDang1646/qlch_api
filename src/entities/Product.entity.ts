@@ -1,13 +1,8 @@
-import {
-    BaseEntity,
-    Column,
-    Entity,
-} from "typeorm";
+import { BaseEntity, Column, Entity } from "typeorm";
 
 @Entity("products")
 export class Product extends BaseEntity {
-
-    @Column("int", { primary: true, name: "id", generated: "increment", })
+    @Column("int", { primary: true, name: "id", generated: "increment" })
     id: number;
 
     @Column("varchar", { name: "name", length: 500 })

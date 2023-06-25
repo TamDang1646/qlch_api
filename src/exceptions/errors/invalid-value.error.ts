@@ -1,5 +1,3 @@
 import { BaseError } from "./base.error";
 
-export class InvalidValueError extends BaseError {
-
-}
+export class InvalidValueError extends BaseError {}

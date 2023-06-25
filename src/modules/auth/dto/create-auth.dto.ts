@@ -1,7 +1,4 @@
-import {
-    IsInt,
-    IsString,
-} from "class-validator";
+import { IsInt, IsString } from "class-validator";
 import { BaseDto } from "src/base/base.dto";
 import { Auth } from "src/entities/Auth.entity";
 import { Property } from "src/utils/general.util";
@@ -9,37 +6,36 @@ import { Property } from "src/utils/general.util";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateAuthDto extends BaseDto<Auth> {
-
     @ApiProperty({
-        description: "User's phone number"
+        description: "User's phone number",
     })
     // @IsString()
     @Property()
     @IsString()
-    phoneNumber: string
+    phoneNumber: string;
 
     @ApiProperty({
         required: true,
-        description: "User's password"
+        description: "User's password",
     })
     @Property()
     @IsString()
-    password: string
+    password: string;
 
     @ApiProperty({
         required: true,
-        description: "User's re-password"
+        description: "User's re-password",
     })
     @Property()
     @IsString()
-    rePassword: string
+    rePassword: string;
 
     @ApiProperty({
         required: true,
         description: "User's role",
-        default: 0
+        default: 0,
     })
     @Property()
     @IsInt()
-    role: number
+    role: number;
 }

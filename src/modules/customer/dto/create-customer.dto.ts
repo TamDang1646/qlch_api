@@ -7,27 +7,25 @@ import { Customer } from "@src/entities/Customer.entity";
 export class CreateCustomerDto extends BaseDto<Customer> {
     @ApiProperty({
         description: "name",
-        required: true
+        required: true,
     })
     @ApiProperty()
     @IsString()
-    name: string
+    name: string;
 
     @ApiProperty({
         description: "address",
-        required: true
+        required: true,
     })
     @ApiProperty()
     @IsString()
-    address: string
-
+    address: string;
 
     @ApiProperty({
         description: "phoneNumber",
-        required: true
+        required: true,
     })
     @ApiProperty()
     @IsString()
-    phoneNumber: string
-
+    phoneNumber: string;
 }

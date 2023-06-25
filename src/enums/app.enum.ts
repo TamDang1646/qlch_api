@@ -1,12 +1,12 @@
 export enum Env {
     Dev = "development",
     Staging = "staging",
-    Production = "production"
+    Production = "production",
 }
 
 export enum Platform {
     Any = 0,
     Ios = 1,
     Android = 2,
-    Web = 3
+    Web = 3,
 }

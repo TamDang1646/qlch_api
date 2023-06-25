@@ -8,4 +8,4 @@ export const ValidationConfig: ValidatorOptions | Record<string, unknown> = {
     forbidNonWhitelisted: true,
     disableErrorMessages: false,
     skipMissingProperties: false,
-}
+};

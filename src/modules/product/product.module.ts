@@ -19,11 +19,16 @@ import { ProductService } from "./product.service";
     imports: [
         TypeOrmModule.forFeature([Product, ProductRepository, Auth, BillItems]),
     ],
-    providers: [ProductService, MessageComponent, ApiResponseService, ComponentService, AuthServices, AuthRepository, BillItemsService],
+    providers: [
+        ProductService,
+        MessageComponent,
+        ApiResponseService,
+        ComponentService,
+        AuthServices,
+        AuthRepository,
+        BillItemsService,
+    ],
     exports: [TypeOrmModule, ProductService],
     controllers: [ProductController],
 })
-
-export class ProductModule {
-
-}
+export class ProductModule {}

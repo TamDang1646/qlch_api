@@ -6,20 +6,19 @@ import { Property } from "src/utils/general.util";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class LoginDto extends BaseDto<Auth> {
- 
     @ApiProperty({
-        description: "User's phone number"
+        description: "User's phone number",
     })
     // @IsString()
     @Property()
     @IsString()
-    phoneNumber: string
+    phoneNumber: string;
 
     @ApiProperty({
-        description: "User's pass"
+        description: "User's pass",
     })
     // @IsString()
     @Property()
     @IsString()
-    password: string
+    password: string;
 }

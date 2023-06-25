@@ -13,19 +13,31 @@ import { AuthRepository } from "../auth/auth.repository";
 import { AuthServices } from "../auth/auth.service";
 import { BillItemsService } from "../bill-item/bill-item.service";
 import { ProductService } from "../product/product.service";
-import { CustomerController } from "./Customer.controller";
-import { CustomerRepository } from "./Customer.repository";
+import { CustomerController } from "./customer.controller";
+import { CustomerRepository } from "./customer.repository";
 import { CustomerService } from "./customer.service";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Customer, CustomerRepository, Auth, BillItems, Product]),
+        TypeOrmModule.forFeature([
+            Customer,
+            CustomerRepository,
+            Auth,
+            BillItems,
+            Product,
+        ]),
     ],
-    providers: [CustomerService, MessageComponent, ApiResponseService, ComponentService, ProductService, AuthServices, AuthRepository, BillItemsService],
+    providers: [
+        CustomerService,
+        MessageComponent,
+        ApiResponseService,
+        ComponentService,
+        ProductService,
+        AuthServices,
+        AuthRepository,
+        BillItemsService,
+    ],
     exports: [TypeOrmModule, CustomerService],
     controllers: [CustomerController],
 })
-
-export class CustomerModule {
-
-}
+export class CustomerModule {}

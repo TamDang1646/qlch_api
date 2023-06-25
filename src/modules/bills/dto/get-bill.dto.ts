@@ -5,7 +5,7 @@ import { Property } from "src/utils/general.util";
 import { ApiProperty } from "@nestjs/swagger";
 import { Bills } from "@src/entities/Bill.entity";
 
-export class GetBillDto extends BaseDto<Bills>{
+export class GetBillDto extends BaseDto<Bills> {
     @ApiProperty({
         description: "Start",
         required: false,
@@ -23,5 +23,4 @@ export class GetBillDto extends BaseDto<Bills>{
     @Property()
     @IsOptional()
     end: number;
-
 }

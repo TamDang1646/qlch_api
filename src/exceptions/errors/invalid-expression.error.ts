@@ -1,5 +1,3 @@
 import { BaseError } from "./base.error";
 
-export class InvalidExpressionError extends BaseError {
-
-}
+export class InvalidExpressionError extends BaseError {}

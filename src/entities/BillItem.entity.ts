@@ -1,13 +1,8 @@
-import {
-    BaseEntity,
-    Column,
-    Entity,
-} from "typeorm";
+import { BaseEntity, Column, Entity } from "typeorm";
 
 @Entity("bills-item")
 export class BillItems extends BaseEntity {
-
-    @Column("int", { primary: true, name: "id", generated: "increment", })
+    @Column("int", { primary: true, name: "id", generated: "increment" })
     id: number;
 
     @Column("int", { name: "billId" })

@@ -1,8 +1,5 @@
 import { LoggerService } from "src/logger/custom.logger";
-import {
-    InsertResult,
-    QueryFailedError,
-} from "typeorm";
+import { InsertResult, QueryFailedError } from "typeorm";
 
 import { BaseService } from "@base/base.service";
 import { Injectable } from "@nestjs/common";
@@ -25,18 +22,25 @@ export class BillsService extends BaseService<Bills, BillsRepository> {
         super(repository, logger);
     }
     async getAll(param: any): Promise<Bills[]> {
-        const query = this.repository.manager.createQueryBuilder<Bills>(Bills, "bills")
+        const query = this.repository.manager
+            .createQueryBuilder<Bills>(Bills, "bills")
             .innerJoin(Customer, "cus", "bills.customerId=cus.id ")
-            .select("bills.*, cus.name as customerName,cus.phone_number as customerPhonenumber, cus.address as customerAddress")
+            .select(
+                "bills.*, cus.name as customerName,cus.phone_number as customerPhonenumber, cus.address as customerAddress",
+            );
         if (param?.start && param?.end) {
-            const start = new Date(parseInt(`${param.start}`))
-            const end = new Date(parseInt(`${param.end}`))
-            query.andWhere("bills.start >= :start or bills.end <= :end", { start: start, end: end })
-                .orderBy("bills.id", "DESC")
+            const start = new Date(parseInt(`${param.start}`));
+            const end = new Date(parseInt(`${param.end}`));
+            query
+                .andWhere("bills.start >= :start or bills.end <= :end", {
+                    start: start,
+                    end: end,
+                })
+                .orderBy("bills.id", "DESC");
         } else {
-            query.orderBy("bills.id", "DESC")
+            query.orderBy("bills.id", "DESC");
         }
-        return await query.execute()
+        return await query.execute();
         // return await this.repository.find();
     }
     async getBillId(id): Promise<Bills> {
@@ -45,12 +49,18 @@ export class BillsService extends BaseService<Bills, BillsRepository> {
         //     .select("bills.*, cus.name as customerName,cus.phone_number as customerPhonenumber, cus.address as customerAddress")
         //     .andWhere("bills.id = :id", { id })
 
-        const postTable = this.repository.metadata.tableName
-        const query = this.repository.manager.createQueryBuilder(Bills, postTable)
-        query.innerJoin(Customer, "cus", "bills.customerId=cus.id ")
-            .select("bills.*, cus.name as customerName,cus.phone_number as customerPhonenumber, cus.address as customerAddress")
-            .andWhere("bills.id = :id", { id })
-        return await query.getRawOne()
+        const postTable = this.repository.metadata.tableName;
+        const query = this.repository.manager.createQueryBuilder(
+            Bills,
+            postTable,
+        );
+        query
+            .innerJoin(Customer, "cus", "bills.customerId=cus.id ")
+            .select(
+                "bills.*, cus.name as customerName,cus.phone_number as customerPhonenumber, cus.address as customerAddress",
+            )
+            .andWhere("bills.id = :id", { id });
+        return await query.getRawOne();
         // return await this.repository.findOne({
         //     where: [{ id }],
         // })
@@ -161,7 +171,9 @@ export class BillsService extends BaseService<Bills, BillsRepository> {
 
             const res = await this.repository
                 .createQueryBuilder()
-                .select('COUNT (*) as totalBill,SUM(CAST(CONCAT(deposit) AS DECIMAL(10,0))) as totalDeposit')
+                .select(
+                    "COUNT (*) as totalBill,SUM(CAST(CONCAT(deposit) AS DECIMAL(10,0))) as totalDeposit",
+                );
 
             return res.getRawOne();
         } catch (error: unknown) {

@@ -5,24 +5,23 @@ import { Property } from "src/utils/general.util";
 
 import { ApiProperty } from "@nestjs/swagger";
 
-export class TokenDto extends BaseDto<Token>{
+export class TokenDto extends BaseDto<Token> {
     @ApiProperty({
         description: "Post's id",
-        required: false
+        required: false,
     })
     // @IsString()
     @Property()
     @IsOptional()
-    userId: number
+    userId: number;
 
     @ApiProperty({
         description: "Post's author",
-        required: false
+        required: false,
     })
     // @IsString()
     @Property()
     @IsOptional()
     // @IsNumber()
-    code: string
-
+    code: string;
 }
