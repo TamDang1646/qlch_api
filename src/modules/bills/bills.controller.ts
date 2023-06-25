@@ -294,7 +294,8 @@ export class BillsController extends BaseController {
                     return this.dataSource.getRepository(BillItems).update(
                         { id: i.id },
                         {
-                            ...item,
+                            quantity: item.quantity,
+                            size: item.size,
                         },
                     );
                 }),
@@ -302,9 +303,14 @@ export class BillsController extends BaseController {
             await Promise.all(
                 updateData.items.map((i) => {
                     if (!i.id) {
-                        return this.dataSource
-                            .getRepository(BillItems)
-                            .save({ ...i, billId: id });
+                        return this.dataSource.getRepository(BillItems).save(
+                            new BillItems({
+                                billId: id,
+                                itemId: i.itemId,
+                                quantity: i.quantity,
+                                size: i.size,
+                            }),
+                        );
                     }
                 }),
             );
