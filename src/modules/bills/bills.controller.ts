@@ -281,7 +281,9 @@ export class BillsController extends BaseController {
                         { id: i.itemId },
                         {
                             quantity: () =>
-                                `quantity - ${item.quantity - i.quantity}`,
+                                `quantity - ${
+                                    Number(item.quantity) - Number(i.quantity)
+                                }`,
                         },
                     );
                 }),
@@ -318,7 +320,9 @@ export class BillsController extends BaseController {
                 return (
                     total +
                     parseFloat(item.price) *
-                        billItems.find((x) => x.itemId == item.id).quantity
+                        Number(
+                            billItems.find((x) => x.itemId == item.id).quantity,
+                        )
                 );
             }, 0);
             let paid = parseFloat(updateData.deposit) >= totalPrice ? 1 : 0;
